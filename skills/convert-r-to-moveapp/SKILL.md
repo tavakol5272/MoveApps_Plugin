@@ -65,25 +65,20 @@ before proceeding to step 4.
 ## 4. Confirm the App name
 
 MoveApps convention: both the GitHub repo name and the App's display
-title use **Title Case without hyphens** (e.g. `My New App`) — not
-kebab-case. This applies to the actual repository name itself, not just
-a separate display field.
+title use **Title Case without hyphens** (e.g. `My New App`).
 
 If the user hasn't given a name, suggest 2-3 Title Case options based on
-what the code does (e.g. `Detect Resting Sites`, `Resting Site Finder`)
-and let the user pick one or propose their own.
+what the code does and let the user pick one or propose their own.
 
-Check the chosen name against existing MoveApps Apps before finalizing —
-search the `movestore` GitHub organization (github.com/movestore) and/or
-the MoveApps App directory for something identical or very close. If a
-conflict is found:
+Before finalizing, check the name against two things:
 
-- Explain specifically what exists already and why it's too close (e.g.
-  "there's already an App called `Resting Site Detector` that does
-  something similar — using a near-identical name could confuse users
-  browsing the App catalog").
-- Suggest 2-3 alternative Title Case names that avoid the collision.
-- Let the user make the final choice rather than picking automatically.
+- **Suitability**: does it actually describe what the App does (from
+  step 2/3), or is it too generic/misleading?
+- **Collision**: does something identical or very close already exist in
+  the `movestore` GitHub org or MoveApps App directory?
+
+If either check fails, explain specifically why, suggest 2-3 alternative
+Title Case names, and let the user make the final call.
 
 All generated files go under a new folder using the chosen name.
 
