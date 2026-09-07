@@ -42,25 +42,19 @@ Read through the source and identify:
 - External packages the code depends on (from `library()`/`require()`
   calls or `pkg::fun()` usage).
 
-## 3. Prepare the conversion plan
+## 3. Prepare the conversion summary
 
 Before generating any files, summarize:
 
+- the purpose of the core analysis;
 - the detected input type;
 - the expected output type;
-- the core analysis that will become `rFunction()`;
-- helper functions that will move to `src/app/`;
-- hard-coded values that will become settings;
-- required R packages;
-- auxiliary files;
-- expected artifacts;
-- any incompatibilities with `move2`;
-- any decisions that require user input.
+- any expected artifacts.
 
 Do not modify the scientific or statistical logic during this step.
 
-Present this plan to the user and wait for confirmation or corrections
-before proceeding to step 4.
+Present this summary to the user and wait for confirmation or
+corrections before proceeding to step 4.
 
 ## 4. Confirm the App name
 
@@ -130,10 +124,12 @@ the right column names pretending to be one. This means:
   `png(appArtifactPath("plot.png")); plot(...); dev.off()`). Artifacts
   are downloadable by the workflow user separately from the main data
   passed to the next App.
-- If the plan identified that nothing sensible remains to pass on as
-  `move2` data, the function may return `NULL` — this is a valid,
-  official pattern ("nothing to hand to the next App"), not an error to
-  avoid.
+- If the logic aggregates or reshapes the data so severely that nothing
+  sensible remains to pass on as `move2` data, the function may return
+  `NULL` — this is a valid, official pattern ("nothing to hand to the
+  next App"), not an error to avoid. Only stop and ask the user if it's
+  genuinely unclear whether the result should be `NULL`, an artifact, or
+  `move2` data.
 
 **Step B — wrap the adapted logic in `rFunction()`.**
 Wrap the adapted logic in a function literally named `rFunction` that:
