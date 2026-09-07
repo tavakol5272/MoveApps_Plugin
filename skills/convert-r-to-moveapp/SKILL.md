@@ -144,3 +144,32 @@ fetched template's values and flag that in the final report.
 
 Mention that the finished file can be validated at
 moveapps.org/apps/settingseditor before submission.
+
+### Validate appspec.json  ????????? ask Anne to send the rules for this!!!!
+
+Before moving on, check the generated `appspec.json` against the rules
+in `references/template-spec.md` and flag any violation instead of
+silently leaving it broken:
+
+- Every `settings` entry has `id`, `name`, `description`, `type`, and
+  (except where intentionally omitted for RADIOBUTTONS/DROPDOWN) a
+  `defaultValue`.
+- Each `id` exactly matches an `rFunction` argument name from step 4B —
+  no orphaned settings, no missing ones.
+- `type` is one of the valid values (STRING, INTEGER, DOUBLE, INSTANT,
+  RADIOBUTTONS, DROPDOWN, CHECKBOX, SECRET, USER_FILE).
+- `defaultValue`'s shape matches its `type` (e.g. CHECKBOX is a literal
+  `true`/`false`, not a string; RADIOBUTTONS/DROPDOWN's default is one
+  of the listed `options` values).
+- RADIOBUTTONS and DROPDOWN entries have a non-empty `options` array.
+- If any `USER_FILE` setting exists, confirm `rFunction`'s argument list
+  (step 4B) ends in `...`.
+- `dependencies.R` lists every package actually used by the adapted code
+  from step 4A — nothing missing, nothing left over from the original
+  unadapted code.
+
+Report any issue found and fix it before finishing step 4. Note in the
+final report (step 5) that this was a structural self-check only, and
+recommend the user also run the file through the official Settings
+Editor (moveapps.org/apps/settingseditor) as a final manual check before
+submission.
