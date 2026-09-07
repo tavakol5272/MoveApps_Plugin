@@ -7,6 +7,16 @@ description: >
   run on the MoveApps platform.
 ---
 
+Convert existing, already-working R analysis code into a valid MoveApps App
+that follows the `movestore/Template_R_Function_App` conventions. Read
+`references/template-spec.md` before generating any files — it defines the
+exact structure, the `RFunction.R` contract, and what `appspec.json` needs.
+
+This skill only generates files. It does not run/test the converted code,
+does not push anything to GitHub, and does not create a GitHub repository.
+State this plainly to the user at the end so they know local testing and
+publishing are still their next manual steps.
+
 ## 1. Get the source code
 
 Accept either form the user provides:
@@ -32,7 +42,27 @@ Read through the source and identify:
 - External packages the code depends on (from `library()`/`require()`
   calls or `pkg::fun()` usage).
 
-## 3. Confirm the App name
+## 3. Prepare the conversion plan
+
+Before generating any files, summarize:
+
+- the detected input type;
+- the expected output type;
+- the core analysis that will become `rFunction()`;
+- helper functions that will move to `src/app/`;
+- hard-coded values that will become settings;
+- required R packages;
+- auxiliary files;
+- expected artifacts;
+- any incompatibilities with `move2`;
+- any decisions that require user input.
+
+Do not modify the scientific or statistical logic during this step.
+
+Present this plan to the user and wait for confirmation or corrections
+before proceeding to step 4.
+
+## 4. Confirm the App name
 
 MoveApps convention: both the GitHub repo name and the App's display
 title use **Title Case without hyphens** (e.g. `My New App`) — not
@@ -57,6 +87,10 @@ conflict is found:
 
 All generated files go under a new folder using the chosen name.
 
+## 5. Generate the files
+
+Follow `references/template-spec.md` for the exact structure and rules.
+Generate files in this order:
 
 ### RFunction.R
 
@@ -94,18 +128,17 @@ the right column names pretending to be one. This means:
   to an **auxiliary file**: replace the hard-coded path with
   `getAuxiliaryFilePath("<file-name>")`, so it becomes a file the App
   developer provides but a workflow user can override.
-- If the original logic produces something that isn't naturally a
-  `move2` object — a plot, a summary table, any side output — do not
-  force it into the return value. Write it out as an **artifact**
-  instead, using `appArtifactPath("<file-name>")` for the output path
-  (e.g. `png(appArtifactPath("plot.png")); plot(...); dev.off()`).
-  Artifacts are downloadable by the workflow user separately from the
-  main data passed to the next App.
-- If the logic aggregates/reshapes the data so severely that nothing
-  sensible remains to pass on, the function may return `NULL` — this is
-  a valid, official pattern ("nothing to hand to the next App"), not an
-  error to avoid. Only stop and ask the user if it's genuinely unclear
-  whether the result should be `NULL`, an artifact, or `move2` data.
+- If the plan (step 3) identified output that isn't naturally a `move2`
+  object — a plot, a summary table, any side output — write it out as
+  an **artifact** instead of forcing it into the return value, using
+  `appArtifactPath("<file-name>")` for the output path (e.g.
+  `png(appArtifactPath("plot.png")); plot(...); dev.off()`). Artifacts
+  are downloadable by the workflow user separately from the main data
+  passed to the next App.
+- If the plan identified that nothing sensible remains to pass on as
+  `move2` data, the function may return `NULL` — this is a valid,
+  official pattern ("nothing to hand to the next App"), not an error to
+  avoid.
 
 **Step B — wrap the adapted logic in `rFunction()`.**
 Wrap the adapted logic in a function literally named `rFunction` that:
@@ -123,7 +156,6 @@ If the code had helper functions identified in step 2 as logically
 separate from the main analysis, move them to `src/app/` and add a
 `source()` call at the top of `RFunction.R` to load them.
 
-
 ### appspec.json
 
 Before writing this file, fetch the current example from
@@ -133,9 +165,10 @@ to confirm current field names — use it as the pattern, including its
 `references/template-spec.md` and note the fallback in the final report.
 
 Add one `settings` entry per additional `rFunction()` argument from step
-4B, choosing the correct type (see `references/template-spec.md` for the
-full type list and syntax rules). Add `dependencies.R` for every package
-identified in step 2, and `providedAppFiles` for any `USER_FILE` setting.
+5's Step B, choosing the correct type (see `references/template-spec.md`
+for the full type list and syntax rules). Add `dependencies.R` for every
+package identified in step 2, and `providedAppFiles` for any `USER_FILE`
+setting.
 
 Metadata fields (`license`, `language`, `keywords`, `people`, `funding`,
 `references`) aren't derivable from code — ask the user rather than
@@ -145,31 +178,19 @@ fetched template's values and flag that in the final report.
 Mention that the finished file can be validated at
 moveapps.org/apps/settingseditor before submission.
 
-### Validate appspec.json  ????????? ask Anne to send the rules for this!!!!
+### Validate appspec.json   ?????????????????????????????????????????????
 
-Before moving on, check the generated `appspec.json` against the rules
-in `references/template-spec.md` and flag any violation instead of
-silently leaving it broken:
 
-- Every `settings` entry has `id`, `name`, `description`, `type`, and
-  (except where intentionally omitted for RADIOBUTTONS/DROPDOWN) a
-  `defaultValue`.
-- Each `id` exactly matches an `rFunction` argument name from step 4B —
-  no orphaned settings, no missing ones.
-- `type` is one of the valid values (STRING, INTEGER, DOUBLE, INSTANT,
-  RADIOBUTTONS, DROPDOWN, CHECKBOX, SECRET, USER_FILE).
-- `defaultValue`'s shape matches its `type` (e.g. CHECKBOX is a literal
-  `true`/`false`, not a string; RADIOBUTTONS/DROPDOWN's default is one
-  of the listed `options` values).
-- RADIOBUTTONS and DROPDOWN entries have a non-empty `options` array.
-- If any `USER_FILE` setting exists, confirm `rFunction`'s argument list
-  (step 4B) ends in `...`.
-- `dependencies.R` lists every package actually used by the adapted code
-  from step 4A — nothing missing, nothing left over from the original
-  unadapted code.
 
-Report any issue found and fix it before finishing step 4. Note in the
-final report (step 5) that this was a structural self-check only, and
-recommend the user also run the file through the official Settings
-Editor (moveapps.org/apps/settingseditor) as a final manual check before
-submission.
+### .env / app-configuration.json
+
+
+
+### Dockerfile
+
+### renv.lock
+
+### README.md
+
+## Report back
+
