@@ -34,34 +34,48 @@ Read through the source and identify:
 
 ## 3. Confirm the App name
 
-Two separate names are needed:
+MoveApps convention: both the GitHub repo name and the App's display
+title use **Title Case without hyphens** (e.g. `My New App`) — not
+kebab-case. This applies to the actual repository name itself, not just
+a separate display field.
 
-- **Folder/repo name** — kebab-case, since this becomes the GitHub repo
-  and local folder name (GitHub doesn't accept literal spaces here).
-- **Display title** — the human-readable name shown in the MoveApps
-  platform UI, stored in `appspec.json`. This can have normal spacing and
-  capitalization (e.g. "Detect Resting Sites").
+If the user hasn't given a name, suggest 2-3 Title Case options based on
+what the code does (e.g. `Detect Resting Sites`, `Resting Site Finder`)
+and let the user pick one or propose their own.
 
-If the user hasn't given either, suggest 2-3 paired options based on what
-the code does (e.g. folder `resting-site-detector` / title "Resting Site
-Detector") and let the user pick one or propose their own.
-
-Whether the names come from the user or from these suggestions, check the
-folder name against existing MoveApps Apps before finalizing — search the
-`movestore` GitHub organization (github.com/movestore) and/or the MoveApps
-App directory for something identical or very close. If a conflict is
-found:
+Check the chosen name against existing MoveApps Apps before finalizing —
+search the `movestore` GitHub organization (github.com/movestore) and/or
+the MoveApps App directory for something identical or very close. If a
+conflict is found:
 
 - Explain specifically what exists already and why it's too close (e.g.
-  "there's already an App called `resting-site-detector` that does
+  "there's already an App called `Resting Site Detector` that does
   something similar — using a near-identical name could confuse users
   browsing the App catalog").
-- Suggest 2-3 alternative paired names that avoid the collision.
+- Suggest 2-3 alternative Title Case names that avoid the collision.
 - Let the user make the final choice rather than picking automatically.
 
-All generated files go under a new folder using the chosen folder name.
+All generated files go under a new folder using the chosen name.
+
 
 ### RFunction.R
+
+Before writing this file, fetch the current example from
+https://raw.githubusercontent.com/movestore/Template_R_Function_App/master/RFunction.R
+to confirm the current signature and structure. Use it as the pattern.
+If the fetch isn't possible, use the reference structure below and note
+the fallback in the final report.
+
+Reference structure (from the official template):
+
+    library("moveapps")
+    library("move2")
+    # plus any other packages the original code actually needs
+
+    rFunction = function(data, ...) {
+      # adapted logic here
+      return(result)
+    }
 
 **Step A — adapt the logic to `move2` first.**
 Before wrapping anything, transform the core analysis logic itself so it
@@ -71,43 +85,62 @@ the right column names pretending to be one. This means:
 - Rewriting the parts of the code that manipulate the data so they use
   `move2`-aware operations and preserve the object's class and required
   attributes throughout.
-- If the original logic aggregates or reshapes the data in a way that
-  can't naturally stay a `move2` object (e.g. it collapses tracks into
-  summary statistics), stop here and flag this to the user explicitly —
-  do not force a fit. Explain what about the output shape is incompatible
-  and ask how they want to handle it (e.g. return the summary as an
-  artifact alongside a pass-through `move2` object, rather than as the
-  primary return value).
+- Replacing any `print()`/`cat()`/`message()` calls used for status
+  updates with the platform's logger functions instead —
+  `logger.info()`, `logger.warn()`, `logger.error()`, `logger.fatal()`,
+  `logger.debug()`, `logger.trace()` — so messages show up correctly in
+  the App's log on MoveApps.
+- If the original code reads a static reference/lookup file, convert it
+  to an **auxiliary file**: replace the hard-coded path with
+  `getAuxiliaryFilePath("<file-name>")`, so it becomes a file the App
+  developer provides but a workflow user can override.
+- If the original logic produces something that isn't naturally a
+  `move2` object — a plot, a summary table, any side output — do not
+  force it into the return value. Write it out as an **artifact**
+  instead, using `appArtifactPath("<file-name>")` for the output path
+  (e.g. `png(appArtifactPath("plot.png")); plot(...); dev.off()`).
+  Artifacts are downloadable by the workflow user separately from the
+  main data passed to the next App.
+- If the logic aggregates/reshapes the data so severely that nothing
+  sensible remains to pass on, the function may return `NULL` — this is
+  a valid, official pattern ("nothing to hand to the next App"), not an
+  error to avoid. Only stop and ask the user if it's genuinely unclear
+  whether the result should be `NULL`, an artifact, or `move2` data.
 
 **Step B — wrap the adapted logic in `rFunction()`.**
-Once the logic itself correctly handles `move2` in and out, wrap it in a
-function named `rFunction` that:
+Wrap the adapted logic in a function literally named `rFunction` that:
 
-- Takes `data` (a `move2` object) as its first argument.
+- Takes `data` (a `move2` object) as its first argument — this name is
+  reserved, do not rename it.
 - Takes any hard-coded values identified in step 2 as additional named
-  arguments, so they become user-configurable settings instead of
-  constants baked into the code.
+  settings arguments.
+- Ends its argument list with `...` to safely absorb any other reserved
+  arguments MoveApps may pass.
+- Returns the result via `return(result)` — `move2` data, or `NULL` per
+  Step A.
 
 If the code had helper functions identified in step 2 as logically
 separate from the main analysis, move them to `src/app/` and add a
 `source()` call at the top of `RFunction.R` to load them.
 
+
 ### appspec.json
 
 Before writing this file, fetch the current example from
 https://raw.githubusercontent.com/movestore/Template_R_Function_App/master/appspec.json
-to confirm the current field names and structure. Use it as the pattern
-rather than a static guess. If the fetch isn't possible, fall back to
-`references/template-spec.md` and note that fallback in the final report.
+to confirm current field names — use it as the pattern, including its
+`version` value. If the fetch fails, fall back to
+`references/template-spec.md` and note the fallback in the final report.
 
-Fill in:
+Add one `settings` entry per additional `rFunction()` argument from step
+4B, choosing the correct type (see `references/template-spec.md` for the
+full type list and syntax rules). Add `dependencies.R` for every package
+identified in step 2, and `providedAppFiles` for any `USER_FILE` setting.
 
-- The display title and description (from step 3's chosen title, and a
-  short explanation of what the App does based on the source code).
-- The expected input data type (a `move2` object).
-- A `settings` entry for every additional argument added to `rFunction()`
-  in step 4B — each entry's name, type, and default value must match
-  that argument exactly, and its description should explain what it
-  controls in plain language, not just restate the argument name.
+Metadata fields (`license`, `language`, `keywords`, `people`, `funding`,
+`references`) aren't derivable from code — ask the user rather than
+inventing placeholder values; if they have no preference, leave the
+fetched template's values and flag that in the final report.
 
-  
+Mention that the finished file can be validated at
+moveapps.org/apps/settingseditor before submission.
