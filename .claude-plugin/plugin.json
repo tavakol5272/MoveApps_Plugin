@@ -1,1 +1,8 @@
-
+{
+  "name": "moveapps-r-converter",
+  "version": "0.1.0",
+  "description": "Convert existing R analysis code into a MoveApps App",
+  "author": {
+    "name": "Nafiseh Tavakol"
+  }
+}
