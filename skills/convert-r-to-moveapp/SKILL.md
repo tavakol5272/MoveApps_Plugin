@@ -42,21 +42,44 @@ Read through the source and identify:
 - External packages the code depends on (from `library()`/`require()`
   calls or `pkg::fun()` usage).
 
-## 3. Prepare the conversion summary
+## 3. Determine the IO type
+
+Based on the input and output identified in step 2, determine which
+MoveApps IO type the App's input and output actually match. This choice
+matters more than most others: once an App is initialized on the
+MoveApps platform, its IO types (and runtime environment) are fixed and
+cannot be changed afterward, and Apps can only be chained in a Workflow
+when one App's output type matches the next App's input type. See
+`references/io-types.md` for the full list and exact shapes.
+
+This skill supports `move2_loc` and `move2_nonloc` only.
+
+- If the code's data clearly matches one of the `ctmm` types instead,
+  stop and flag it — that's out of scope for this skill. If the data is
+  location-based, mention that Translator Apps can bridge between
+  location-type IO types like `move2_loc` and `ctmm::telemetry.list`
+  (docs.moveapps.org/#/translator), but not for non-location data.
+- If the data doesn't clearly match any of the 6 known IO types, stop
+  and flag this too — see `references/io-types.md` for the "requesting
+  a new IO type" option.
+
+State the determined input type and output type plainly before moving
+on.
+
+## 4. Prepare the conversion summary
 
 Before generating any files, summarize:
 
 - the purpose of the core analysis;
-- the detected input type;
-- the expected output type;
+- the IO type determined in step 3 (input and output);
 - any expected artifacts.
 
 Do not modify the scientific or statistical logic during this step.
 
 Present this summary to the user and wait for confirmation or
-corrections before proceeding to step 4.
+corrections before proceeding to step 5.
 
-## 4. Confirm the App name
+## 5. Confirm the App name
 
 MoveApps convention: both the GitHub repo name and the App's display
 title use **Title Case without hyphens** (e.g. `My New App`).
@@ -76,7 +99,7 @@ Title Case names, and let the user make the final call.
 
 All generated files go under a new folder using the chosen name.
 
-## 5. Generate the files
+## 6. Generate the files
 
 Follow `references/template-spec.md` for the exact structure and rules.
 Generate files in this order:
