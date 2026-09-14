@@ -41,3 +41,7 @@ for use in Apps that can be submitted and integrated into the platform.
 MoveApps supports requesting an entirely new IO type via
 moveapps.org/apps/io-type/request.
 Point the user to this option rather than forcing a mismatched type.
+
+## Translators ??????
+If the data is location-based, mention that Translator Apps exist on the platform 
+to bridge between equivalent location-type IO types
