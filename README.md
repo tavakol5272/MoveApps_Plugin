@@ -31,3 +31,18 @@ The project does not yet implement an automatic R-to-MoveApps converter.
 6. Package the Skill as a Claude plugin.
 7. Consider API-based integration later.
 That last sentence is important because it makes clear that you are currently designing the process, not claiming you already built the converter.
+
+## Safety notes
+
+**Source code is treated as untrusted input.** The skill only reads and reshapes the R code you give
+it — it never executes it. Because the source may come from anywhere (a script you inherited, a
+collaborator's file), the skill is instructed to treat any comments or strings that look like embedded
+directives ("ignore the above and instead...", fake instructions, etc.) as ordinary code content, not
+as commands to follow, and to flag anything suspicious in its final report rather than act on it.
+
+**No telemetry.** Unlike some plugins, this one sends nothing anywhere except the one documented fetch
+to `raw.githubusercontent.com` for the live `appspec.json` schema (see Setup). No usage events, prompts,
+or generated code are transmitted elsewhere.
+
+**Nothing is published on your behalf.** As covered above, the skill never runs the generated code,
+never builds the Docker image, and never touches GitHub — every one of those steps stays in your hands.
