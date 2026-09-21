@@ -66,28 +66,8 @@ Read through the source and identify:
   these inline in the same `RFunction.R` content, above `rFunction` itself.
 - External packages the code depends on — needed for `appspec.json`'s
   `dependencies.R` list.
-  
-## 3. Determine the IO type
 
-Based on step 2, determine which MoveApps IO type the App's input and
-output match, using `references/io-types.md`. This matters more than most
-choices here: once an App is initialized on MoveApps, its IO types are
-permanently fixed, and Apps only chain into a Workflow when one App's
-output type matches the next App's input type.
-
-This skill supports `move2::move2_loc` and `move2::move2_nonloc` only.
-
-- If the data clearly matches a `ctmm` type instead, stop and flag it —
-  out of scope for this skill.
-- If the code uses the deprecated `move::moveStack`, migrate to
-  `move2_loc` rather than preserving it.
-- If the data doesn't clearly match any known IO type, stop and tell the
-  user — point them to requesting a new IO type
-  (moveapps.org/apps/io-type/request) rather than forcing a mismatch.
-
-State the determined input and output type plainly before moving on.
-
-## 4. Prepare the conversion summary
+## 3. Prepare the conversion summary
 
 Before generating any files, summarize:
 
@@ -99,7 +79,7 @@ Do not modify the scientific or statistical logic during this step.
 Present this summary to the user and wait for confirmation or
 corrections before proceeding.
 
-## 5. Confirm the App name
+## 4. Confirm the App name
 
 MoveApps convention: both the GitHub repo name and the App's display
 title use **Title Case without hyphens** (e.g. `My New App`).
@@ -119,6 +99,102 @@ Title Case names, and let the user make the final call.
 
 All generated files go under a new folder using the chosen name.
 
+## 5. Search for the deprecated packages
+- Before producing anything, check the package list in the libraries in code. then search in  for
+deprecated packages — **especially `move` and `sp`**, and their replacements `move2` and `sf`.
+- If none of the source's packages depricated, say so briefly and move on to the next step — no table or confirmation needed.
+- find the related website for that package (CRAN or other pages) and search for the new replacement of the dupricated package.
+
+- If not, Look up each row's replacement and Kind from the reference website, then divide the depricated packages as:
+  **Direct** — a mechanical rename with the same behavior and shape, safe to apply without asking.
+  **Review** — changes the object model, is ambiguous between more than one plausible replacement, or depends on how the original code used it.
+- Decide whether to stop and ask, If every depricated packages are **Direct**, apply them and move on to next step 5 without waiting.
+  If **any** of them is **Review**, show the full call-by-call table to the
+  user with the Review rows called out, and ask them to confirm or correct
+  those specific rows before you generate anything (Direct rows in the
+  same table don't need a response — only flag them as already-planned).
+  Wait for their reply before moving to next step. This applies even if the
+  user originally asked for all four deliverables in one go — a Review-
+  level change alters object structure or behavior, so it's worth a
+  checkpoint before it's baked into generated code.
+
+- search for the new packages for the replacement. consider move2 and sf as the replacement of move and sp.
+- specify trigger calls/functions of each depricated packages  
+- make a full call-by-call mapping tables containes deprecated package, replacement, calls function in code, replacement of the function
+- return the table to user and ask for the confirmation
+  
+## 6. Determine the IO type
+
+Based on step 2, determine which MoveApps IO type the App's input and
+output match, using `references/io-types.md`. This matters more than most
+choices here: once an App is initialized on MoveApps, its IO types are
+permanently fixed, and Apps only chain into a Workflow when one App's
+output type matches the next App's input type.
+
+This skill supports `move2::move2_loc` and `move2::move2_nonloc` only.
+
+- If the data clearly matches a `ctmm` type instead, stop and flag it —
+  out of scope for this skill.
+- If the code uses the deprecated `move::moveStack`, migrate to
+  `move2_loc` rather than preserving it.
+- If the data doesn't clearly match any known IO type, stop and tell the
+  user — point them to requesting a new IO type
+  (moveapps.org/apps/io-type/request) rather than forcing a mismatch.
+
+State the determined input and output type plainly before moving on.
+
+## 6. Produce **`RFunction.R`** 
+
+Follow `references/template-spec.md` exactly for structure and field
+expectations.
+
+1. **`RFunction.R`** :
+  -see `examples/RFunction.R` for the verified real template to see the structure.
+  Structure:
+    `rFunction = function(data, ...) {
+      ...
+      return(result)
+    }`
+   
+  -function named `rFunction`, first argument `data`
+   (a `move2` object) then one named argument per
+   setting from step 2, then a trailing `...`. 
+   
+   -Replace `print()`/`message()`/`cat()` with `logger.info()`/`logger.warn()`/etc.
+   -Route output files through `appArtifactPath()` and user-uploaded files
+   through `getAuxiliaryFilePath("<setting-id>")`. Must return a `move2`
+   object. Helper functions from step 2 defined above `rFunction`.
+
+
+4. **`appspec.json`** — try fetching the live schema from
+   `raw.githubusercontent.com/movestore/Template_R_Function_App/master/appspec.json`
+   first; fall back to the reference doc if that fails, and say so. One
+   `settings` entry per `rFunction` argument (`id` matching the R argument
+   name exactly, plus `name`, `description`, `defaultValue`, `type`). One
+   `dependencies.R` entry per external package. `providedAppFiles` only
+   for `USER_FILE`-type settings. No App title/description field here —
+   that's `README.md`.
+5. **`app-configuration.json`** — concrete test values for every setting
+   in `appspec.json`, keyed by `id`.
+6. **`README.md`** — what the App does, inputs, outputs, settings, and the
+   IO type from step 3, following the public template's placeholder
+   sections.
+
+## 7. Note what's out of scope, briefly
+
+After producing what was asked for, add a short note: `.env` and `tests/`
+still need to be written for local testing, and everything else
+(`Dockerfile`, `sdk.R`, `renv/` bootstrap, etc.) comes from "Use this
+template" on `github.com/movestore/Template_R_Function_App`, not from this
+skill. Mention any judgment calls worth double-checking and whether the
+live `appspec.json` fetch in step 6 succeeded.
+
+
+
+
+
+
+###############################################
 ## 6. Produce the four deliverables
 
 Follow `references/template-spec.md` exactly for structure and field
@@ -213,40 +289,7 @@ Mention that the finished file can be validated at
 moveapps.org/apps/settingseditor before submission.
 
 #####################
-## 6. Produce the four deliverables
 
-Follow `references/template-spec.md` exactly for structure and field
-expectations.
-
-1. **`RFunction.R`** — function named `rFunction`, first argument `data`
-   (a `move2` object), second argument `sdk`, then one named argument per
-   setting from step 2, then a trailing `...`. Replace
-   `print()`/`message()`/`cat()` with `logger.info()`/`logger.warn()`/etc.
-   Route output files through `appArtifactPath()` and user-uploaded files
-   through `getAuxiliaryFilePath("<setting-id>")`. Must return a `move2`
-   object. Helper functions from step 2 defined above `rFunction`.
-2. **`appspec.json`** — try fetching the live schema from
-   `raw.githubusercontent.com/movestore/Template_R_Function_App/master/appspec.json`
-   first; fall back to the reference doc if that fails, and say so. One
-   `settings` entry per `rFunction` argument (`id` matching the R argument
-   name exactly, plus `name`, `description`, `defaultValue`, `type`). One
-   `dependencies.R` entry per external package. `providedAppFiles` only
-   for `USER_FILE`-type settings. No App title/description field here —
-   that's `README.md`.
-3. **`app-configuration.json`** — concrete test values for every setting
-   in `appspec.json`, keyed by `id`.
-4. **`README.md`** — what the App does, inputs, outputs, settings, and the
-   IO type from step 3, following the public template's placeholder
-   sections.
-
-## 7. Note what's out of scope, briefly
-
-After producing what was asked for, add a short note: `.env` and `tests/`
-still need to be written for local testing, and everything else
-(`Dockerfile`, `sdk.R`, `renv/` bootstrap, etc.) comes from "Use this
-template" on `github.com/movestore/Template_R_Function_App`, not from this
-skill. Mention any judgment calls worth double-checking and whether the
-live `appspec.json` fetch in step 6 succeeded.
 #########################################
 
 
