@@ -1,13 +1,17 @@
-- see `examples/RFunction.R` for the verified real template to see the structure.
+**Creating the function**
+./RFunction.R is the entrypoint for the App logic. MoveApps will call this function during a Workflow execution which includes the App.
+- The file must be named RFunction.R, do not alter it
+- see `[examples/RFunction.R](https://github.com/movestore/Template_R_Function_App/blob/master/RFunction.R)` for the verified real template to see the structure.
   - function named `rFunction` with this structure:
     `rFunction = function(data, ...) {
       ...
       return(result)
     }`
-   
-  - the first parameter of the R function must be named `data`. 
-  don't use `data` as a parameter name. This is reserved for the input that is passed on from the previous App (see above). then one named argument per
-   setting from step 2, then a trailing `...`. 
+  **App Input**
+  - Input from previous App: the first parameter of the R function must be named `data`. don't use `data` as a parameter name. This is reserved for the input that is passed on from the previous App.
+  - MoveApps parameters: other parameters can be receive from appspec.json in "settings" part that are shown as "id" and then a trailing `...`.
+  - More details: https://docs.moveapps.org/#/copilot-r-sdk?id=moveapps-parameters
+
    
    - Replace `print()`/`message()`/`cat()` with `logger.info()`/`logger.warn()`/etc.
    - Route output files through `appArtifactPath()` and user-uploaded files
@@ -24,4 +28,8 @@
 2- Projections: Read this: https://docs.moveapps.org/#/best_practices_coding?id=projections
 3- Time zones: Read this: https://docs.moveapps.org/#/best_practices_coding?id=time-zones
 
-Parallel computing within MoveApps: https://docs.moveapps.org/#/parallelcomp
+- Parallel computing within MoveApps: https://docs.moveapps.org/#/parallelcomp
+
+
+- ask user if they rather divide the code of your App into several files. if the answert is yes read this part and do: https://docs.moveapps.org/#/copilot-r-sdk?id=source-aditional-r-scripts
+  
