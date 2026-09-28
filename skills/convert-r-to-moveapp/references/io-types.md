@@ -45,7 +45,7 @@ https://docs.moveapps.org/#/IO_types?id=io-types-for-r
   Check this link for updating:
   https://github.com/movestore/cargo-agent-r/blob/main/src/analyzer/move_move_stack/README.md
 
--  **`Requesting a new IO type **`: https://docs.moveapps.org/#/IO_types?id=requesting-a-new-io-type
+- **`Requesting a new IO type **`: https://docs.moveapps.org/#/IO_types?id=requesting-a-new-io-type
   Point the user to this option rather than forcing a mismatched type.
 
 
