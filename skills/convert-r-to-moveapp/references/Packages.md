@@ -7,4 +7,13 @@
   5- permission of replacement: Divide the depricated packages as
       - write **Direct** if a mechanical rename with the same behavior and shape, safe to apply without asking.
       - write **Review** if changes the object model, is ambiguous between more than one plausible replacement, or depends on how the original code used it.
+
+
+
+ - keep the number of library() calls as small as possible
+ - use list.functions.in.file("RFunction.R") from R package NCmisc to check which libraries are used by code.
+ - don't import a whole library for one function
+  - "don't list base R libraries in dependencies.R
+  - watch for masking when loading libraries
+  
   
