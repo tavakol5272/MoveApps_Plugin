@@ -124,25 +124,11 @@ State the determined input and output type plainly before moving on.
 
 ## step 8. Produce **`RFunction.R`** 
 
-Follow `references/template-spec.md` exactly for structure and field
-expectations.
-  - see `examples/RFunction.R` for the verified real template to see the structure.
-  - function named `rFunction` with this structure:
-    `rFunction = function(data, ...) {
-      ...
-      return(result)
-    }`
-   
-  - the first parameter of the R function must be named `data`. 
-  don't use `data` as a parameter name. This is reserved for the input that is passed on from the previous App (see above). then one named argument per
-   setting from step 2, then a trailing `...`. 
-   
-   -Replace `print()`/`message()`/`cat()` with `logger.info()`/`logger.warn()`/etc.
-   -Route output files through `appArtifactPath()` and user-uploaded files
-   through `getAuxiliaryFilePath("<setting-id>")`. Must return a `move2`
-   object. Helper functions from step 2 defined above `rFunction`.
+Follow `references/R_Function.md` exactly for structure and field expectations.
 
-
+## step 9. App Categories:
+- Read this : https://docs.moveapps.org/#/IO_types?id=app-categories
+- Check out the App Browser for a list of all available App Categories: https://www.moveapps.org/apps/browser
 ## step 9. Produce**`appspec.json`**:
 try fetching the live schema from
    `raw.githubusercontent.com/movestore/Template_R_Function_App/master/appspec.json`
