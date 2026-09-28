@@ -2,6 +2,8 @@
 Apps can only chain together in a Workflow when one App's output type
 matches the next App's input type. Once an App is initialized on
 MoveApps, its IO types are permanently fixed.
+The following IO types for R are currently available in MoveApps:
+https://docs.moveapps.org/#/IO_types?id=io-types-for-r
 
 - **`move2::move2_loc`** — location/tracking data only. Replaces the
   deprecated `moveStack`. A `move2` object can technically hold both
