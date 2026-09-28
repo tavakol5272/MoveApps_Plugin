@@ -126,6 +126,13 @@ State the determined input and output type plainly before moving on.
 
 Follow `references/R_Function.md` exactly for structure and field expectations.
 
+
+
+need correction:### note: 4- Adding large fixed or fallback files to an App:
+  ask user if the auxiliary input files are larger than 100MB, if the answer is yes: add data/auxiliary/user-files/provided-app-files/** to the file .gitignore and remind the user this is on them to handle with read this link: https://docs.moveapps.org/#/auxiliary?id=adding-large-fixed-or-fallback-files-to-an-app
+
+
+
 ## step 9. App Categories:
 - Read this : https://docs.moveapps.org/#/IO_types?id=app-categories
 - Check out the App Browser for a list of all available App Categories: https://www.moveapps.org/apps/browser
