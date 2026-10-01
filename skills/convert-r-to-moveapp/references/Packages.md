@@ -1,19 +1,29 @@
-- make a full call-by-call mapping table called "deprecated packages table", contanes the following columns and then fill the columns in this way:
-  1- the name of packages: write all the names of packages in each row
-  2-is depricated: check if there is any deprecated packages in the list (especially pay attention  to `move` and `sp`**). if it is depricated write yes. if not write No.
-  4-replacement package: Look up each row's replacement and Kind from the reference website of packages (CRAN or other pages) and search for the new replacement (consider  `move2` and `sf` as replacements for `move` and `sp`).
-  3- calls functions : for depricated packages in the code, find all the related function that are related to each package and write it using comma.
-  4- functions replacement: write the replacements of the functions belong to the depricated packages
-  5- permission of replacement: Divide the depricated packages as
-      - write **Direct** if a mechanical rename with the same behavior and shape, safe to apply without asking.
-      - write **Review** if changes the object model, is ambiguous between more than one plausible replacement, or depends on how the original code used it.
+Create a complete call-by-call mapping table named **deprecated packages table** with the following columns:
 
+1. **Package**  
+   List every package used by the source code.
 
+2. **Deprecated**  
+   Check whether the package is deprecated, superseded, archived, or no longer appropriate for current MoveApps development. Pay particular attention to `move` and `sp`. Write **Yes** or **No**.
 
- - keep the number of library() calls as small as possible
- - use list.functions.in.file("RFunction.R") from R package NCmisc to check which libraries are used by code.
- - don't import a whole library for one function
-  - "don't list base R libraries in dependencies.R
-  - watch for masking when loading libraries
-  
-  
+3. **Calls/functions used**  
+   For deprecated packages, list all functions from that package that are actually used by the source code.
+
+4. **Replacement package**  
+   Determine the current replacement package using authoritative package documentation such as CRAN, the package website, or official migration documentation. Consider `move2` and `sf` as the expected replacements for `move` and `sp`, respectively, where appropriate.
+
+5. **Function replacements**  
+   Map each used function from the deprecated package to its current replacement or equivalent.
+
+6. **Permission of replacement**  
+   Classify each deprecated-package replacement as:
+   - **Direct** — a mechanical replacement with equivalent behavior and compatible input/output structure, safe to apply automatically.
+   - **Review** — the replacement changes the object model or behavior, is ambiguous, has multiple plausible alternatives, or depends on how the original code uses the function.
+
+Additional rules:
+
+- Keep the number of `library()` calls as small as possible.
+- Use `NCmisc::list.functions.in.file("RFunction.R")` to help identify which package functions are actually used.
+- Do not load an entire package only for a single function when `package::function()` is sufficient.
+- Do not list base R packages in `dependencies.R`.
+- Watch for function masking/conflicts when loading packages; use explicit `package::function()` calls where needed.
