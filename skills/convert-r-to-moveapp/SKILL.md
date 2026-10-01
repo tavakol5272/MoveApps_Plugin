@@ -94,37 +94,34 @@ what the code does and let the user pick one.
 
 All generated files go under a new folder using the chosen name.
 
-## step 5. check the needed packages
-- Read the references/deprecated-packages.md file.
-- return and read "deprecated packages table"
-- If every row in the "deprecated packages table" is **Direct**, apply
-  the package replacements and move on to next step 5 without waiting.
-- If **any** row in "permission of replacement column" is **Review**, show the "deprecated packages table" to the
-  user and ask them to confirm or correct those specific rows before you generate anything
-  
-## step 6. Determine the IO type
+## Step 5. Check the required packages
 
-Based on step 2, determine which MoveApps IO type the App's input and
-output match, using `references/io-types.md`. This matters more than most
-choices here: once an App is initialized on MoveApps, its IO types are
-permanently fixed, and Apps only chain into a Workflow when one App's
-output type matches the next App's input type.
+- Read `references/packages.md`.
+- Build the **deprecated packages table** as defined there.
+- If every deprecated package is marked **Direct** in the `permission of replacement` column, apply those replacements automatically and continue to the next step.
+- If any deprecated package is marked **Review**, show the **deprecated packages table** to the user and ask them to confirm or correct only those rows before generating or modifying the App code.
+- Do not proceed with **Review** replacements until the user confirms them.
 
-This skill supports `move2::move2_loc` and `move2::move2_nonloc` only.
 
-- If the data clearly matches a `ctmm` type instead, stop and flag it —
-  out of scope for this skill.
-- If the code uses the deprecated `move::moveStack`, migrate to
-  `move2_loc` rather than preserving it.
-- If the data doesn't clearly match any known IO type, stop and tell the
-  user — point them to requesting a new IO type
-  (moveapps.org/apps/io-type/request) rather than forcing a mismatch.
+## Step 6. Determine the IO type
 
-State the determined input and output type plainly before moving on.
+Determine the App's input and output IO types based on the source code and data structure identified in Step 2.
+
+Read `references/io-types.md` and follow it for the currently available MoveApps R IO types and their requirements.
+
+Also follow the MoveApps R SDK rule: code written for `RFunction.R` must not expect `moveStack` as input. If the App's declared input type is `move::moveStack`, MoveApps converts that input to `move2` before it reaches the R SDK code.
+
+Do not assume the input and output types are the same.
+
+If the data does not match a currently available IO type, follow `references/io-types.md` for requesting a new IO type rather than forcing a mismatch.
+
+State the determined input and output types clearly before continuing.
 
 ## step 8. Produce **`RFunction.R`** 
-
-Follow `references/R_Function.md` exactly for structure and field expectations.
+- Generate the App logic in `RFunction.R`.
+- Before writing or modifying this file, read `references/R_Function.md` and follow its instructions and linked references for the required structure, coding rules, input/output handling, and MoveApps-specific expectations.
+- Keep all App R code in this file unless explicitly instructed otherwise.
+- Only `RFunction.R` and the directories listed in `appspec.json` under `providedAppFiles` are bundled into the final MoveApps App. Do not rely on any other project files being available at runtime.
 
 
 
@@ -134,8 +131,11 @@ need correction:### note: 4- Adding large fixed or fallback files to an App:
 
 
 ## step 9. App Categories:
-- Read this : https://docs.moveapps.org/#/IO_types?id=app-categories
+assign one or more Categories to the App. 
+- First read this : https://docs.moveapps.org/#/IO_types?id=app-categories
 - Check out the App Browser for a list of all available App Categories: https://www.moveapps.org/apps/browser
+- If none of MoveApps' existing Categories fit the App, let the user know they can request a new one directly in the submission interface when they submit: https://docs.moveapps.org/#/IO_types?id=app-categories
+  
 ## step 9. Produce**`appspec.json`**:
 try fetching the live schema from
    `raw.githubusercontent.com/movestore/Template_R_Function_App/master/appspec.json`
