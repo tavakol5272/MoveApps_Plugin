@@ -1,7 +1,4 @@
-`RFunction.R` is the entrypoint for the App logic — MoveApps calls this
-function during a Workflow run that includes the App. For Apps whose
-output is movement data, the function must return a `move2` object so
-downstream Apps in the same Workflow can use it.
+`RFunction.R` is the entrypoint for the App logic — MoveApps calls this function during a Workflow run that includes the App. The function must accept and return the App's declared MoveApps input/output types. Read references/io-types.md and follow the requirements of the specific IO type used by the App.
 
 - The file must be named `RFunction.R`.
 - See the [verified real template](https://github.com/movestore/Template_R_Function_App/blob/master/RFunction.R) for the real file structure.
