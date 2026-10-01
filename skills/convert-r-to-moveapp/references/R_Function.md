@@ -6,6 +6,8 @@
 - When loading libraries, watch for function-name masking/conflicts between packages. Prefer explicit namespace calls such as `package::function()` when needed.
 - Do not install packages inside `RFunction.R`; only load the required libraries/packages defined for the App environment.
 - Do not use setwd(), <<-, or modify .GlobalEnv inside RFunction.R.
+- Do not assume the input and output types are the same. Use the App's declared input and output types and preserve that contract.
+
 
 ### Before starting writing code, read these guidelines:
 
