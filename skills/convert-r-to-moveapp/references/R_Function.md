@@ -3,14 +3,14 @@ function during a Workflow run that includes the App. For Apps whose
 output is movement data, the function must return a `move2` object so
 downstream Apps in the same Workflow can use it.
 
-- The file must be named `RFunction.R`, do not alter it.
+- The file must be named `RFunction.R`.
 - See the [verified real template](https://github.com/movestore/Template_R_Function_App/blob/master/RFunction.R) for the real file structure.
 - Put the needed libraries before defining `rFunction`, using `references/packages.md`.
 - When loading libraries, watch for function-name masking/conflicts between packages. Prefer explicit namespace calls such as `package::function()` when needed.
 - Do not install packages inside `RFunction.R`; only load the required libraries/packages defined for the App environment.
 - Do not use setwd(), <<-, or modify .GlobalEnv inside RFunction.R.
 
-Before starting writing code, read these guidelines:
+### Before starting writing code, read these guidelines:
 
 1. **Hard coding**
    -  Avoid hard coding column names. Read this part for more details: [Hard coding](https://docs.moveapps.org/#/best_practices_coding?id=hard-coding).
@@ -74,4 +74,12 @@ Before starting writing code, read these guidelines:
     - Before returning the result, verify that it matches the App's expected output type and has not lost required `move2` structure or metadata.
    
 
+### Final check
+Before finishing `RFunction.R`, verify that:
+- the function signature matches the App settings and input contract;
+- the returned object matches the expected output type;
+- required `move2` structure/metadata are preserved;
+- no hard-coded paths, unnecessary package installation, or hidden global-state dependencies were introduced;
+- package masking/conflicts are handled;
+- logging, auxiliary files, artifacts, CRS, and time-zone handling follow the linked MoveApps documentation where applicable.
 
