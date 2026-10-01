@@ -19,7 +19,7 @@ Read [IO types for R](https://docs.moveapps.org/#/IO_types?id=io-types-for-r). I
 
   
 - Prefer `move2::move2_loc` over `move::moveStack` for new Apps, as the R library `move` is going to be deprecated at some point.
-- If the App requires an IO type that is not currently available, read [**`Requesting a new IO type **`](https://docs.moveapps.org/#/IO_types?id=requesting-a-new-io-type) nd tell the user what is required.
+- If the App requires an IO type that is not currently available, read [Requesting a new IO type](https://docs.moveapps.org/#/IO_types?id=requesting-a-new-io-type) nd tell the user what is required.
 - For the technical requirements for adding a new R IO type and adapting the Cargo Agent, read the [R cargo agents README](https://github.com/movestore/cargo-agent-r/blob/main/README.md).
 - Do not force data into an existing IO type when its structure does not match that type.
 - If the code's data does not match any currently supported IO type, do not assign one automatically; tell the user that a new IO type may need to be requested.
