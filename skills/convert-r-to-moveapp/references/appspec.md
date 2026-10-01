@@ -1,4 +1,37 @@
-## appspec.json settings — type reference
+## appspec.json:
+The appspec.json file is used to define the specifications of an App within MoveApps.
+Read the [App Specification](https://docs.moveapps.org/#/appspec?id=appspecjson).
+
+Currently, the following specifications can/need to be added:
+1- [Settings](https://docs.moveapps.org/#/appspec/current/settings/README)
+  There are different types of settings. Read all the details:
+  - [Text](https://docs.moveapps.org/#/appspec/current/settings/string) and [Example](https://docs.moveapps.org/#/appspec/current/settings/string?id=example).
+  - [Integer numbers](https://docs.moveapps.org/#/appspec/current/settings/integer) and [Example](https://docs.moveapps.org/#/appspec/current/settings/integer?id=example).
+  - [Real numbers](https://docs.moveapps.org/#/appspec/current/settings/double) and [Example](https://docs.moveapps.org/#/appspec/current/settings/double?id=example).
+  - [Date selection](https://docs.moveapps.org/#/appspec/current/settings/timestamp) and [Example](https://docs.moveapps.org/#/appspec/current/settings/timestamp?id=example).
+  - [Radiobuttons](https://docs.moveapps.org/#/appspec/current/settings/radiobuttons) and [Example](https://docs.moveapps.org/#/appspec/current/settings/radiobuttons?id=example).
+  - [Checkboxes](https://docs.moveapps.org/#/appspec/current/settings/checkbox) and [Example](https://docs.moveapps.org/#/appspec/current/settings/checkbox?id=example).
+  - [Dropdown](https://docs.moveapps.org/#/appspec/current/settings/dropdown) and [Example](https://docs.moveapps.org/#/appspec/current/settings/dropdown?id=example).
+  - [Passwords](https://docs.moveapps.org/#/appspec/current/settings/secret) and [Example](https://docs.moveapps.org/#/appspec/current/settings/secret?id=example).
+  - [Auxiliary/user files](https://docs.moveapps.org/#/appspec/current/settings/user_file) and Example.
+
+
+
+
+
+2- [Dependencies](https://docs.moveapps.org/#/appspec/current/dependencies_appspec)
+  
+3- [License](https://docs.moveapps.org/#/appspec/current/license_appspec)
+  
+4- [Language](https://docs.moveapps.org/#/appspec/current/language_appspec)
+  
+5- [Keywords](https://docs.moveapps.org/#/appspec/current/keywords_appspec)
+  
+6- [People](https://docs.moveapps.org/#/appspec/current/people_appspec)
+  
+7- [Funding](https://docs.moveapps.org/#/appspec/current/funding_appspec)
+  
+8- [References](https://docs.moveapps.org/#/appspec/current/references_appspec)
 
 Every setting needs `id` (matches the R argument name), `name` (short
 label), `description` (plain language), and `defaultValue`. Choose
@@ -50,6 +83,11 @@ label), `description` (plain language), and `defaultValue`. Choose
 The finished `appspec.json` can be checked at the MoveApps Settings
 Editor: moveapps.org/apps/settingseditor
 
+
+
+
+Acknowledgements and references : https://docs.moveapps.org/#/best_practices_coding?id=acknowledgements-and-references
+reference section : https://docs.moveapps.org/#/appspec/current/references_appspec
 
 
 Acknowledgements and references : https://docs.moveapps.org/#/best_practices_coding?id=acknowledgements-and-references
