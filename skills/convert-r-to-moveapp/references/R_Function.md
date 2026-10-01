@@ -6,17 +6,21 @@ depend on it.
 - The file must be named `RFunction.R`, do not alter it.
 - See the [verified real template](https://github.com/movestore/Template_R_Function_App/blob/master/RFunction.R) for the real file structure.
 - Put the needed libraries before defining `rFunction`, using `references/packages.md`.
+- Do not install packages inside `RFunction.R`; only load the required libraries/packages defined for the App environment.
+- Do not use setwd(), <<-, or modify .GlobalEnv inside RFunction.R.
 
 Before starting writing code, read these guidelines:
 
 1. **Hard coding**
    -  Avoid hard coding column names. Read this part for more details: [Hard coding](https://docs.moveapps.org/#/best_practices_coding?id=hard-coding).
-
+   -  - Do not hard-code local file paths such as `C:/...`, `/Users/...`, or project-specific working directories.
 2. **Programming with the object of class `move2`**
+   - Preserve the move2 object structure and use move2 functions/accessors where possible.
    - If the App uses the `move2` R package, read this link: [Notes on programming with the object of class move2](https://docs.moveapps.org/#/programing_move2?id=notes-on-programming-with-the-object-of-class-move2).
    - For a detailed explanation of the `move2` object, see this vignette: [Programming with a move2 object](https://bartk.gitlab.io/move2/articles/programming_move2_object.html).
    - Check the [function reference index](https://bartk.gitlab.io/move2/reference/index.html) before changing the code, and see if any function in the code could be converted to one of these.
    - For more worked examples of manipulating a `move2` object, see the [package's vignettes](https://bartk.gitlab.io/move2/index.html).
+   - Do not silently drop or rename columns, change CRS/time zone, reorder data, or remove observations unless required by the App's intended operation.
 
 3. **Apps using information of the track data table**
    - If the source code uses information from the track data table, read this link for how to handle it when the table is of class `list`: [Apps using information of the track data table](https://docs.moveapps.org/#/programing_move2?id=apps-using-information-of-the-track-data-table).
@@ -42,7 +46,9 @@ Before starting writing code, read these guidelines:
      }
 ```
 
-8. **Helper functions** could be defined above `rFunction`.
+8. **Helper functions**
+   - Helper functions can be defined above `rFunction`.
+   - Pass required data and settings to helper functions through their arguments rather than relying on global variables.
 
 9. **App Input**
    1. Input from previous App: the first parameter of the R function must be named `data` — don't reuse that name for anything else, it's reserved for the input passed on from the previous App. Read this link: [Input from previous App](https://docs.moveapps.org/#/copilot-r-sdk?id=input-from-previous-app).
@@ -52,7 +58,7 @@ Before starting writing code, read these guidelines:
       - Local upload auxiliary file: [guide](https://docs.moveapps.org/#/auxiliary?id=_2-local-upload-auxiliary-files), [local testing](https://docs.moveapps.org/#/auxiliary?id=local-testing-1), [example](https://docs.moveapps.org/#/auxiliary?id=example-1).
       - Local upload auxiliary file with fixed fallback file: [guide](https://docs.moveapps.org/#/auxiliary?id=_3-local-upload-auxiliary-files-with-fixed-fallback-files), [local testing](https://docs.moveapps.org/#/auxiliary?id=local-testing-2), [example](https://docs.moveapps.org/#/auxiliary?id=example-2).
 
-10. Replace `print()`/`message()`/`cat()` with `logger.info()`/`logger.warn()`/etc.
+10. Replace `print()`/`message()`/`cat()` with `logger.info()`/`logger.warn()`/etc. Do not suppress unexpected errors with broad `tryCatch()` blocks; handle only expected/recoverable conditions explicitly.
 
 11. **OpenStreetMap access (Overpass API)**
     - If the source code queries OpenStreetMap/Overpass, read this link: [Internal Open Street Map mirror](https://docs.moveapps.org/#/OSMmirror?id=internal-open-street-map-mirror).
@@ -61,3 +67,8 @@ Before starting writing code, read these guidelines:
     - MoveApps allows creating and saving different files directly through the R function. The result of the function must be defined as a return value at the end of the function code. Read more details here: [App Output](https://docs.moveapps.org/#/copilot-r-sdk?id=app-output).
     - If the App produces an artifact, read this link for a valid artifact path: [Producing artifacts](https://docs.moveapps.org/#/copilot-r-sdk?id=producing-artifacts), and this example: [Example](https://docs.moveapps.org/#/copilot-r-sdk?id=example-4).
     - Only files are permitted as a MoveApps App artifact — if the App produces a directory, it has to be bundled (e.g. zipped) first. At the moment the App finishes, `APP_ARTIFACTS_DIR` must contain only files, no folders. Example for zipping: [Example for zipping](https://docs.moveapps.org/#/copilot-r-sdk?id=example-for-zipping).
+    - If processing results in no records, do not invent a fallback output. Preserve the App's intended behavior and output contract.
+    - Before returning the result, verify that it matches the App's expected output type and has not lost required `move2` structure or metadata.
+   
+
+
