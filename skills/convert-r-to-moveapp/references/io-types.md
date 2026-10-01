@@ -1,5 +1,5 @@
-# MoveApps IO Types — Reference
-pps can only be connected in a Workflow when the output type of one App matches the input type of the next App. Once an App is initialized on MoveApps, its IO types are permanently fixed. The input and output types do not have to be the same.
+# MoveApps IO Types
+Apps can only be connected in a Workflow when the output type of one App matches the input type of the next App. Once an App is initialized on MoveApps, its IO types are permanently fixed. The input and output types do not have to be the same.
 
 Before determining an App's IO type, read the [Input and Output types](https://docs.moveapps.org/#/IO_types?id=input-and-output-types) section.
 
