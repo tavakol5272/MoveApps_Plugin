@@ -1,7 +1,7 @@
 `RFunction.R` is the entrypoint for the App logic — MoveApps calls this
-function during a Workflow run that includes the App. The function must
-return a `move2` object, since downstream Apps in the same Workflow
-depend on it.
+function during a Workflow run that includes the App. For Apps whose
+output is movement data, the function must return a `move2` object so
+downstream Apps in the same Workflow can use it.
 
 - The file must be named `RFunction.R`, do not alter it.
 - See the [verified real template](https://github.com/movestore/Template_R_Function_App/blob/master/RFunction.R) for the real file structure.
@@ -13,7 +13,7 @@ Before starting writing code, read these guidelines:
 
 1. **Hard coding**
    -  Avoid hard coding column names. Read this part for more details: [Hard coding](https://docs.moveapps.org/#/best_practices_coding?id=hard-coding).
-   -  - Do not hard-code local file paths such as `C:/...`, `/Users/...`, or project-specific working directories.
+   -  Do not hard-code local file paths such as `C:/...`, `/Users/...`, or project-specific working directories.
 2. **Programming with the object of class `move2`**
    - Preserve the move2 object structure and use move2 functions/accessors where possible.
    - If the App uses the `move2` R package, read this link: [Notes on programming with the object of class move2](https://docs.moveapps.org/#/programing_move2?id=notes-on-programming-with-the-object-of-class-move2).
@@ -33,7 +33,7 @@ Before starting writing code, read these guidelines:
    - All tracking data comes in with timestamps in `UTC` — if the App converts to a local time zone for interpretation, convert it back to `UTC` before passing data on as output. Read this: [Time zones](https://docs.moveapps.org/#/best_practices_coding?id=time-zones).
 
 6. **Parallel computing within MoveApps**
-   - This skill always keeps everything in one `RFunction.R` — it does not split code into separate files under `src/app/`, even if the original source is organized that way. (Splitting a finished App into multiple files afterward is a manual step outside this skill's output; see [Source additional R scripts](https://docs.moveapps.org/#/copilot-r-sdk?id=source-aditional-r-scripts).
+   - This skill always keeps everything in one `RFunction.R` — it does not split code into separate files under `src/app/`, even if the original source is organized that way. Splitting a finished App into multiple files afterward is a manual step outside this skill's output; see [Source additional R scripts](https://docs.moveapps.org/#/copilot-r-sdk?id=source-aditional-r-scripts).
    - It's possible to write Apps so that suitable tasks run in parallel on MoveApps. Read this: [Parallel computing in R Apps](https://docs.moveapps.org/#/parallelcomp?id=parallel-computing-in-r-apps).
    - For a worked example, see Bruno Caneco's test App: [dmpstats/moveapps-check-parallel](https://github.com/dmpstats/moveapps-check-parallel).
 
@@ -58,7 +58,9 @@ Before starting writing code, read these guidelines:
       - Local upload auxiliary file: [guide](https://docs.moveapps.org/#/auxiliary?id=_2-local-upload-auxiliary-files), [local testing](https://docs.moveapps.org/#/auxiliary?id=local-testing-1), [example](https://docs.moveapps.org/#/auxiliary?id=example-1).
       - Local upload auxiliary file with fixed fallback file: [guide](https://docs.moveapps.org/#/auxiliary?id=_3-local-upload-auxiliary-files-with-fixed-fallback-files), [local testing](https://docs.moveapps.org/#/auxiliary?id=local-testing-2), [example](https://docs.moveapps.org/#/auxiliary?id=example-2).
 
-10. Replace `print()`/`message()`/`cat()` with `logger.info()`/`logger.warn()`/etc. Do not suppress unexpected errors with broad `tryCatch()` blocks; handle only expected/recoverable conditions explicitly.
+10. **Logging and error handling**
+    - Replace `print()`/`message()`/`cat()` with `logger.info()`/`logger.warn()`/etc.
+    - Do not suppress unexpected errors with broad `tryCatch()` blocks; handle only expected/recoverable conditions explicitly.
 
 11. **OpenStreetMap access (Overpass API)**
     - If the source code queries OpenStreetMap/Overpass, read this link: [Internal Open Street Map mirror](https://docs.moveapps.org/#/OSMmirror?id=internal-open-street-map-mirror).
