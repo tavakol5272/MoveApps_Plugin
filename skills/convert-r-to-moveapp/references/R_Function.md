@@ -10,8 +10,7 @@ depend on it.
 Before starting writing code, read these guidelines:
 
 1. **Hard coding**
-   - Read this part: [Hard coding](https://docs.moveapps.org/#/best_practices_coding?id=hard-coding).
-   - Avoid hard coding column names.
+   -  Avoid hard coding column names. Read this part for more details: [Hard coding](https://docs.moveapps.org/#/best_practices_coding?id=hard-coding).
 
 2. **Programming with the object of class `move2`**
    - If the App uses the `move2` R package, read this link: [Notes on programming with the object of class move2](https://docs.moveapps.org/#/programing_move2?id=notes-on-programming-with-the-object-of-class-move2).
