@@ -1,54 +1,18 @@
 # MoveApps IO Types — Reference
-Apps can only be connected in a Workflow when the output type of one App matches the input type of the next App. Once an App is initialized on
-MoveApps, its IO types are permanently fixed. The input and output types do not have to be the same.
+pps can only be connected in a Workflow when the output type of one App matches the input type of the next App. Once an App is initialized on MoveApps, its IO types are permanently fixed. The input and output types do not have to be the same.
 
-Before determining or changing an App's IO type, read the [Input and Output types](https://docs.moveapps.org/#/IO_types?id=input-and-output-types) part.
+Before determining an App's IO type, read the [Input and Output types](https://docs.moveapps.org/#/IO_types?id=input-and-output-types) section.
 
-
-- **`move2::move2_loc`** — location/tracking data only. Replaces the
-  deprecated `moveStack`. A `move2` object can technically hold both
-  location and non-location data, but this IO type is restricted to the
-  location-only case by design (location and non-location data are kept
-  analytically separate on the platform). This is the default assumption
-  for this skill.  Check this link for updating:
-  https://github.com/movestore/cargo-agent-r/blob/main/src/analyzer/move2_move2_loc/README.md
-
-- **`move2::move2_nonloc`** — non-location data only (e.g. acceleration
-  or other accessory sensor measurements tied to a track). Same `move2`
-  object class as above, but restricted to the non-location case.
-  Combining loc and nonloc data in a single App is not currently
-  supported by the platform. Check this link for updating:
-  https://github.com/movestore/cargo-agent-r/blob/main/src/analyzer/move2_move2_nonloc/README.md
+Read [IO types for R](https://docs.moveapps.org/#/IO_types?id=io-types-for-r). It currently contains these types:
+1- [**`move2::move2_loc`** ](https://github.com/movestore/cargo-agent-r/blob/main/src/analyzer/move2_move2_loc/README.md)
+2- [**`move2::move2_nonloc`** ](https://github.com/movestore/cargo-agent-r/blob/main/src/analyzer/move2_move2_nonloc/README.md)
+3- [**`ctmm::telemetry.list`**](https://github.com/movestore/cargo-agent-r/blob/main/src/analyzer/ctmm_telemetry_list/README.md) 
+4- [**`ctmm model with data`** ](https://github.com/movestore/cargo-agent-r/blob/main/src/analyzer/ctmm_model_with_data/README.md)
+5- [**`ctmm ud with data`** ](https://github.com/movestore/cargo-agent-r/blob/main/src/analyzer/ctmm_ud_with_data/README.md)
+6- [**`move::moveStack`** ](https://github.com/movestore/cargo-agent-r/blob/main/src/analyzer/move_move_stack/README.md)
   
-
-- **`ctmm::telemetry.list`** — a list of `ctmm` telemetry objects (one
-  per track/animal), for the R `ctmm` package's continuous-time movement
-  modeling functions. **Out of scope for this skill** — stop and flag if
-  code data matches this shape (see step 3 of `SKILL.md`).
-   Check this link for updating:
-  https://github.com/movestore/cargo-agent-r/blob/main/src/analyzer/ctmm_telemetry_list/README.md
-
-- **`ctmm model with data`** — a length-2 list: fitted `ctmm` models,
-  plus the corresponding `ctmm` telemetry data. **Out of scope.**
-  Check this link for updating:
-  https://github.com/movestore/cargo-agent-r/blob/main/src/analyzer/ctmm_model_with_data/README.md
-  
-
-- **`ctmm ud with data`** — a length-3 list: fitted `ctmm` models,
-  fitted utilization distributions (UDs), and the telemetry data.
-  **Out of scope.**
-  Check this link for updating:
-  https://github.com/movestore/cargo-agent-r/blob/main/src/analyzer/ctmm_ud_with_data/README.md
-
-- **`move::moveStack`** — deprecated. Rather to use the move2::move2_loc IO type, as the R library move is going to be deprecated at some point.
-  Never use for new Apps; if original code uses this, migrate to `move2_loc` instead of preserving it.
-  Check this link for updating:
-  https://github.com/movestore/cargo-agent-r/blob/main/src/analyzer/move_move_stack/README.md
-
-- **`Requesting a new IO type **`: https://docs.moveapps.org/#/IO_types?id=requesting-a-new-io-type
-  Point the user to this option rather than forcing a mismatched type.
-
-
-If the code's data doesn't match any of the types above, this skill
-cannot determine a valid IO type — stop and tell the user. 
-
+- Prefer `move2::move2_loc` over `move::moveStack` for new Apps, as the R library `move` is going to be deprecated at some point.
+- If the App requires an IO type that is not currently available, read [**`Requesting a new IO type **`](https://docs.moveapps.org/#/IO_types?id=requesting-a-new-io-type) nd tell the user what is required.
+- For the technical requirements for adding a new R IO type and adapting the Cargo Agent, read the [R cargo agents README](https://github.com/movestore/cargo-agent-r/blob/main/README.md).
+- Do not force data into an existing IO type when its structure does not match that type.
+- If the code's data does not match any currently supported IO type, do not assign one automatically; tell the user that a new IO type may need to be requested.
