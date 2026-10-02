@@ -1,10 +1,14 @@
 ## appspec.json:
 The appspec.json file is used to define the specifications of an App within MoveApps.
 Read the [App Specification](https://docs.moveapps.org/#/appspec?id=appspecjson).
+First read the template here: [Template_R_Function_App/appspec.json](https://github.com/movestore/Template_R_Function_App/blob/master/appspec.json)
 
 Currently, the following specifications can/need to be added:
-1- [Settings](https://docs.moveapps.org/#/appspec/current/settings/README)
-  There are different types of settings. Read all the details:
+
+1- [Settings](https://docs.moveapps.org/#/appspec/current/settings/README). 
+- Every setting needs `id` (matches the R argument name), `name` (short label), `description` (plain language), and `defaultValue`. Choose
+`type` based on what the argument represents, like the [example](https://docs.moveapps.org/#/appspec/current/settings/README?id=example).
+- There are different types of settings. Read all the links:
   - [Text](https://docs.moveapps.org/#/appspec/current/settings/string) and [Example](https://docs.moveapps.org/#/appspec/current/settings/string?id=example).
   - [Integer numbers](https://docs.moveapps.org/#/appspec/current/settings/integer) and [Example](https://docs.moveapps.org/#/appspec/current/settings/integer?id=example).
   - [Real numbers](https://docs.moveapps.org/#/appspec/current/settings/double) and [Example](https://docs.moveapps.org/#/appspec/current/settings/double?id=example).
@@ -13,14 +17,20 @@ Currently, the following specifications can/need to be added:
   - [Checkboxes](https://docs.moveapps.org/#/appspec/current/settings/checkbox) and [Example](https://docs.moveapps.org/#/appspec/current/settings/checkbox?id=example).
   - [Dropdown](https://docs.moveapps.org/#/appspec/current/settings/dropdown) and [Example](https://docs.moveapps.org/#/appspec/current/settings/dropdown?id=example).
   - [Passwords](https://docs.moveapps.org/#/appspec/current/settings/secret) and [Example](https://docs.moveapps.org/#/appspec/current/settings/secret?id=example).
-  - [Auxiliary/user files](https://docs.moveapps.org/#/appspec/current/settings/user_file) and Example.
+  - [Auxiliary/user files](https://docs.moveapps.org/#/appspec/current/settings/user_file).
+
+    ??For creation, test and verification of the appspec.json there is the [Settings Editor ](https://www.moveapps.org/apps/settingseditor)
 
 
+2- [Dependencies](https://docs.moveapps.org/#/appspec/current/dependencies_appspec) 
+  - All libraries on which the App needs for its construction and/or runtime.
+  - Do not include any base library in the appspecs.json file.
+  - For a CRAN package, just`{"name": "pkgname"}`. For a package that comes from somewhere else (GitHub, GitLab, etc.), add a [`"remotes"`](https://remotes.r-lib.org/reference/index.html).
+  - Read the [Examples](https://docs.moveapps.org/#/appspec/current/dependencies_appspec?id=example).
+
+till here #################################
 
 
-
-2- [Dependencies](https://docs.moveapps.org/#/appspec/current/dependencies_appspec)
-  
 3- [License](https://docs.moveapps.org/#/appspec/current/license_appspec)
   
 4- [Language](https://docs.moveapps.org/#/appspec/current/language_appspec)
