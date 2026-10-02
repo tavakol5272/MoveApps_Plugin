@@ -2,7 +2,7 @@
 
 - The file must be named `RFunction.R`.
 - See the [verified real template](https://github.com/movestore/Template_R_Function_App/blob/master/RFunction.R) for the real file structure.
-- Put the needed libraries before defining `rFunction`, using `references/packages.md`.
+- Get the list of libraries from `Step 5. Check the required packages` in `./Skill.md` and put them at the top of `RFunction.R`.
 - When loading libraries, watch for function-name masking/conflicts between packages. Prefer explicit namespace calls such as `package::function()` when needed.
 - Do not install packages inside `RFunction.R`; only load the required libraries/packages defined for the App environment.
 - Do not use setwd(), <<-, or modify .GlobalEnv inside RFunction.R.
