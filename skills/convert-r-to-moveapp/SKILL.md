@@ -101,6 +101,7 @@ All generated files go under a new folder using the chosen name.
 - If every deprecated package is marked **Direct** in the `permission of replacement` column, apply those replacements automatically and continue to the next step.
 - If any deprecated package is marked **Review**, show the **deprecated packages table** to the user and ask them to confirm or correct only those rows before generating or modifying the App code.
 - Do not proceed with **Review** replacements until the user confirms them.
+- Make a list of Packages and the Libraries needed for the app.
 
 
 ## Step 6. Determine the IO type
