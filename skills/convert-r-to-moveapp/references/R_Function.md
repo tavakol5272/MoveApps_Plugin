@@ -15,6 +15,9 @@
    -  Avoid hard coding column names. Read this part for more details: [Hard coding](https://docs.moveapps.org/#/best_practices_coding?id=hard-coding).
    -  Do not hard-code local file paths such as `C:/...`, `/Users/...`, or project-specific working directories.
 2. **Programming with the object of class `move2`**
+   R Apps can have different input/output types — the input isn't necessarily a `move2` object.
+   See [Input and Output types](https://docs.moveapps.org/#/IO_types?id=input-and-output-types)
+for the full list. The guidance below only applies when the App's input type is `move2`.
    - Preserve the move2 object structure and use move2 functions/accessors where possible.
    - If the App uses the `move2` R package, read this link: [Notes on programming with the object of class move2](https://docs.moveapps.org/#/programing_move2?id=notes-on-programming-with-the-object-of-class-move2).
    - For a detailed explanation of the `move2` object, see this vignette: [Programming with a move2 object](https://bartk.gitlab.io/move2/articles/programming_move2_object.html).
@@ -22,22 +25,22 @@
    - For more worked examples of manipulating a `move2` object, see the [package's vignettes](https://bartk.gitlab.io/move2/index.html).
    - Do not silently drop or rename columns, change CRS/time zone, reorder data, or remove observations unless required by the App's intended operation.
 
-3. **Apps using information of the track data table**
+4. **Apps using information of the track data table**
    - If the source code uses information from the track data table, read this link for how to handle it when the table is of class `list`: [Apps using information of the track data table](https://docs.moveapps.org/#/programing_move2?id=apps-using-information-of-the-track-data-table).
    - Read the example on that page as well.
 
-4. **Projections**
+5. **Projections**
    - Don't assume incoming data is in `EPSG:4326` — upstream Apps or user-uploaded files can reproject it, so the App needs to handle whatever projection it actually receives. Read this: [Projections](https://docs.moveapps.org/#/best_practices_coding?id=projections).
 
-5. **Time zones**
+6. **Time zones**
    - All tracking data comes in with timestamps in `UTC` — if the App converts to a local time zone for interpretation, convert it back to `UTC` before passing data on as output. Read this: [Time zones](https://docs.moveapps.org/#/best_practices_coding?id=time-zones).
 
-6. **Parallel computing within MoveApps**
+7. **Parallel computing within MoveApps**
    - This skill always keeps everything in one `RFunction.R` — it does not split code into separate files under `src/app/`, even if the original source is organized that way. Splitting a finished App into multiple files afterward is a manual step outside this skill's output; see [Source additional R scripts](https://docs.moveapps.org/#/copilot-r-sdk?id=source-aditional-r-scripts).
    - It's possible to write Apps so that suitable tasks run in parallel on MoveApps. Read this: [Parallel computing in R Apps](https://docs.moveapps.org/#/parallelcomp?id=parallel-computing-in-r-apps).
    - For a worked example, see Bruno Caneco's test App: [dmpstats/moveapps-check-parallel](https://github.com/dmpstats/moveapps-check-parallel).
 
-7. **Creating the function**
+8. **Creating the function**
    - name the Function `rFunction` with this structure:
 ```r
      rFunction = function(data, ...) {
@@ -49,6 +52,9 @@
 8. **Helper functions**
    - Helper functions can be defined above `rFunction`.
    - Pass required data and settings to helper functions through their arguments rather than relying on global variables.
+   - Alternatively, helper functions can live in separate R scripts sourced
+  into `RFunction.R`: see [Source aditional R scripts](https://docs.moveapps.org/#/copilot-r-sdk?id=source-aditional-r-scripts).
+   
 
 9. **App Input**
    1. Input from previous App: the first parameter of the R function must be named `data` — don't reuse that name for anything else, it's reserved for the input passed on from the previous App. Read this link: [Input from previous App](https://docs.moveapps.org/#/copilot-r-sdk?id=input-from-previous-app).
@@ -61,6 +67,7 @@
 10. **Logging and error handling**
     - Replace `print()`/`message()`/`cat()` with `logger.info()`/`logger.warn()`/etc.
     - Do not suppress unexpected errors with broad `tryCatch()` blocks; handle only expected/recoverable conditions explicitly.
+    - see the real exported functions here: [link](https://github.com/movestore/moveapps-sdk-r-package/blob/main/R/logger.R).
 
 11. **OpenStreetMap access (Overpass API)**
     - If the source code queries OpenStreetMap/Overpass, read this link: [Internal Open Street Map mirror](https://docs.moveapps.org/#/OSMmirror?id=internal-open-street-map-mirror).
@@ -77,7 +84,7 @@
 Before finishing `RFunction.R`, verify that:
 - the function signature matches the App settings and input contract;
 - the returned object matches the expected output type;
-- required `move2` structure/metadata are preserved;
+- if the IO type is `move2`, the structure/metadata of the object are preserved;
 - no hard-coded paths, unnecessary package installation, or hidden global-state dependencies were introduced;
 - package masking/conflicts are handled;
 - logging, auxiliary files, artifacts, CRS, and time-zone handling follow the linked MoveApps documentation where applicable.
