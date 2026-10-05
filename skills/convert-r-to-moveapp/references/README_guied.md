@@ -1,3 +1,33 @@
 ## App Documentation
-Make the README.md file based on the [Template](https://github.com/movestore/Template_R_Function_App/blob/master/README.md)
 
+- Create the `README.md` based on the official MoveApps [Template](https://github.com/movestore/Template_R_Function_App/blob/master/README.md).
+- Follow the template strictly, including the instructional text and guidance written under each section. Do not only reproduce the headings.
+- **Name of App:** Use the App name chosen in the workflow step that determines the App's display name. Use the same display title in the README and preserve the required **Title Case without hyphens** convention.
+- **Github repository:**
+  1. If the user has provided the repository URL in the conversation or workflow context, include it.
+  2. If no repository URL has been provided, remove the template placeholder and leave nothing after `Github repository:`.
+  3. Do not invent or guess a repository URL.
+  4. After generating the README, inform the user that the repository URL still needs to be added if it was unavailable.
+- Complete the README using verifiable information from the actual App files, especially `appspec.json`, the R source code, tests, and other generated App files where relevant.
+- Ensure that the documented application scope, required data properties, input/output types, artefacts, settings, changes in output data, error/null handling, and technical details accurately reflect the implementation.
+- Do not invent functionality, settings, data requirements, output fields, artefacts, repository information, or runtime behaviour.
+- If information required by the template cannot be verified from the project files or workflow context, mark it as `TODO: verify`.
+- Omit the optional screenshot block unless the user provides a suitable screenshot.
+- Include the optional **Technical details** section when sufficient implementation information is available.
+- The final output must be a clean, App-specific, publication-ready `README.md` that follows the current MoveApps README template.
+- Before finalizing, verify that:
+  - the App title is present and follows the **Title Case without hyphens** convention;
+  - the `Github repository:` line is present and is either filled with the user-provided repository URL or correctly left blank, with no template placeholder remaining;
+  - all required template sections are present:
+    - Description
+    - Documentation
+    - Application scope
+      - Generality of App usability
+      - Required data properties
+    - Input type
+    - Output type
+    - Artefacts
+    - Settings
+    - Changes in output data
+    - Errors and null handling
+  - the optional **Technical details** section is included when sufficient implementation information is available.
