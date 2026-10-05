@@ -14,7 +14,6 @@
 | Package | Deprecated | Function call | Replacement package | Function replacement | Permission of replacement |
 |---|---|---|---|---|---|
 | move | Yes | `move()` | move2 | `mt_read()` | Review |
-| move | Yes | `coordinates()` | move2 | `sf::st_coordinates()` | Direct |
 | move | Yes | `timeLag()` | move2 | `mt_time_lags()` | Direct |
 | sp | Yes | `spTransform()` | sf | `sf::st_transform()` | Direct |
 | lubridate | No | | | | |
