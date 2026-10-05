@@ -18,19 +18,21 @@ Use current authoritative sources when determining package status and migration 
    - Repeat the package name for every relevant function-call row.
 
 3. **change needed** :
+
    - Use **Yes** or **No**
    - Mark **Yes** when the package is: deprecated, superseded, archived, retired, or no longer appropriate for current MoveApps development.
    - In particular, treat `move` and `sp` as **Yes**
    - For the packages that does not need changes, keep this column as **No** and other next columns empty.
    
-4. **Function call** : 
-one function from the deprecated package per row. If a package has several deprecated calls in the source code, give it one row per call, with the package name repeated down column 1 for each. A non-deprecated package gets a single row with this column left blank.
+4. **Function call** :
+
+   One function from the deprecated package per row. If a package has several deprecated calls in the source code, give it one row per call, with the package name repeated down column 1 for each. A non-deprecated package gets a single row with this column left blank.
 
 5. **Replacement package** :
-the current replacement, verified against authoritative docs (CRAN, the package's own site, or a migration guide).
+   The current replacement, verified against authoritative docs (CRAN, the package's own site, or a migration guide).
    - `move`→`move2` and `sp`→`sf` are fixed by column 2's note regardless of what these sources say.
    - For the move2, consult this [link](https://github.com/move2universe) as a reference.
-   - 
+     
 6. **Function replacement**:
    - Give the specific replacement function or migration approach when an authoritative and semantically appropriate mapping exists.
    - Do not invent a one-to-one function mapping.
