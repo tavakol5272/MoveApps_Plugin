@@ -2,13 +2,13 @@
 Inspect the packages and package functions actually used by the App 
 Use current authoritative sources when determining package status and migration paths. Prefer:
 
-1- CRAN package documentation
+   - CRAN package documentation
 
-2- The package's official website or repository
+   - The package's official website or repository
 
-3- Official migration guides
+   -  Official migration guides
 
-4- MoveApps documentation or maintained MoveApps ecosystem repositories
+   -  MoveApps documentation or maintained MoveApps ecosystem repositories
 
 - Do not rely only on whether a package is archived on CRAN. A package may still be available on CRAN but no longer be recommended for new MoveApps development.
 - Inspect the packages and package functions actually used by the App and create a complete call-by-call table named **Packages Table**  with the following columns:
@@ -25,7 +25,9 @@ Use current authoritative sources when determining package status and migration 
    
 4. **Function call** : 
 one function from the deprecated package per row. If a package has several deprecated calls in the source code, give it one row per call, with the package name repeated down column 1 for each. A non-deprecated package gets a single row with this column left blank.
+
 5. **Replacement package** :
+the current replacement, verified against authoritative docs (CRAN, the package's own site, or a migration guide).
    - `move`→`move2` and `sp`→`sf` are fixed by column 2's note regardless of what these sources say.
    - For the move2, consult this [link](https://github.com/move2universe) as a reference.
    - 
@@ -60,7 +62,7 @@ one function from the deprecated package per row. If a package has several depre
 
 
 - The example is illustrative only. Do not copy mappings from the example without independently verifying them.
-- Return the **Packages Table** 
+- Return the **Packages Table**.
 
 ## Package usage rules:
 
