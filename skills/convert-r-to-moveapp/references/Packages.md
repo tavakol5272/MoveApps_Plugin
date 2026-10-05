@@ -42,6 +42,7 @@ Use current authoritative sources when determining package status and migration 
     or  Depends on geometry operation — review sf/terra workflow
 
 6. **Permission of replacement** :
+
     Classify each proposed replacement as:
    - **Direct** : equivalent semantics, compatible inputs/outputs, and sufficiently safe for automatic replacement.
    - **Review** : requires changes to object classes, arguments, return structure, workflow logic, or interpretation; is context-dependent; or has multiple plausible replacements.
