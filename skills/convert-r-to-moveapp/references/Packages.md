@@ -1,4 +1,4 @@
-## Deprecated packages table
+## Packages Table
 Inspect the packages and package functions actually used by the App 
 Use current authoritative sources when determining package status and migration paths. Prefer:
 
