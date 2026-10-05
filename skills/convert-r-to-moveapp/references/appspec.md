@@ -33,6 +33,7 @@ Currently, the following specifications can/need to be added:
   - Follow the official [Examples](https://docs.moveapps.org/#/appspec/current/dependencies_appspec?id=example).
 
 3-Provided App Files:
+
 If the App developer can/wants to provide either fixed or fallback auxiliary files, these files must be defined as providedAppFiles. This category of the appspec.json defines the ID by which the auxiliary file can be addressed and its location in the App file bundle.
   - Read and follow the official MoveApps specification for ["providedAppFiles"](https://docs.moveapps.org/#/appspec/current/providedAppFiles_appspec).
   - For more detailed check [Auxiliary Files](https://docs.moveapps.org/#/auxiliary) section.
@@ -54,17 +55,17 @@ If the App developer can/wants to provide either fixed or fallback auxiliary fil
   
 - Do not choose the license for the user. Present the currently supported options with a short explanation and ask the user to select one.
   
-4- Language:
+5- Language:
   - Read and follow the official MoveApps specification for[Language](https://docs.moveapps.org/#/appspec/current/language_appspec).
   - Follow the official [example](https://docs.moveapps.org/#/appspec/current/language_appspec?id=example).
   - Infer the implementation language from the App where possible.
   
-5- Keywords:
+6- Keywords:
   - Read and follow the official MoveApps specification for [Keywords](https://docs.moveapps.org/#/appspec/current/keywords_appspec)
   - Follow the official [example](https://docs.moveapps.org/#/appspec/current/keywords_appspec?id=example).
   - Suggest appropriate keywords based on the App's purpose, methods, inputs, and outputs. Ask the user whether they want to add or remove any.
   
-6- People:
+7- People:
 - Read and follow the official MoveApps specification for [People](https://docs.moveapps.org/#/appspec/current/people_appspec).
 - Follow the official [example](https://docs.moveapps.org/#/appspec/current/people_appspec?id=example).
 - to determine all supported fields and roles. [List of roles](https://docs.moveapps.org/#/appspec/current/people_appspec?id=list-of-roles) and then show the options of roles.
@@ -73,12 +74,12 @@ If the App developer can/wants to provide either fixed or fallback auxiliary fil
 - At least one person must have the creator role, and at least one author must have a valid email — check this before finalizing the list.
 - Do not invent personal information.
 
-7- Funding:
+8- Funding:
 - Read and follow the official MoveApps specification for [Funding](https://docs.moveapps.org/#/appspec/current/funding_appspec) 
 - The funding statement is not mandatory.
 - Follow the official [example](https://docs.moveapps.org/#/appspec/current/funding_appspec?id=example).
   
-8- References:
+9- References:
   - Read the official MoveApps specification for [References](https://docs.moveapps.org/#/appspec/current/references_appspec)
   - Check the supported reference types: [Reference types](https://docs.moveapps.org/#/appspec/current/references_appspec?id=reference-types)
   - Follow the official [example](https://docs.moveapps.org/#/appspec/current/references_appspec?id=examples) and the Note after that.
