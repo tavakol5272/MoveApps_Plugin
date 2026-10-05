@@ -1,8 +1,7 @@
 ## appspec.json:
 The appspec.json file is used to define the specifications of an App within MoveApps.
-Read the [App Specification](https://docs.moveapps.org/#/appspec?id=appspecjson).
-First read the template here: [Template_R_Function_App/appspec.json](https://github.com/movestore/Template_R_Function_App/blob/master/appspec.json)
-
+Read the [App Specification](https://docs.moveapps.org/#/appspec?id=appspecjson) and then check the template here: [Template_R_Function_App/appspec.json](https://github.com/movestore/Template_R_Function_App/blob/master/appspec.json)
+- `version` — copy from the live fetched template, don't invent it.
 Currently, the following specifications can/need to be added:
 
 1- [Settings](https://docs.moveapps.org/#/appspec/current/settings/README). 
@@ -19,8 +18,6 @@ Currently, the following specifications can/need to be added:
   - [Passwords](https://docs.moveapps.org/#/appspec/current/settings/secret) and [Example](https://docs.moveapps.org/#/appspec/current/settings/secret?id=example).
   - [Auxiliary/user files](https://docs.moveapps.org/#/appspec/current/settings/user_file).
 
-    ??For creation, test and verification of the appspec.json there is the [Settings Editor ](https://www.moveapps.org/apps/settingseditor)
-
 
 2- [Dependencies](https://docs.moveapps.org/#/appspec/current/dependencies_appspec) 
   - All libraries on which the App needs for its construction and/or runtime.
@@ -28,77 +25,39 @@ Currently, the following specifications can/need to be added:
   - For a CRAN package, just`{"name": "pkgname"}`. For a package that comes from somewhere else (GitHub, GitLab, etc.), add a [`"remotes"`](https://remotes.r-lib.org/reference/index.html).
   - Read the [Examples](https://docs.moveapps.org/#/appspec/current/dependencies_appspec?id=example).
 
-till here #################################
-
-
 3- [License](https://docs.moveapps.org/#/appspec/current/license_appspec)
+- Check the license options from which the license key has to be entered: [List of license keys](https://docs.moveapps.org/#/appspec/current/license_appspec?id=list-of-license-keys) and then check the links of those 4 options:
+    1- [GPL-3.0-or-later](https://spdx.org/licenses/GPL-3.0-or-later.html#licenseText)
+    2- [MIT](https://spdx.org/licenses/MIT.html#licenseText)
+    3- [AGPL-3.0-or-later](https://spdx.org/licenses/AGPL-3.0-or-later.html#licenseText)
+    4- [BSD-3-Clause](https://spdx.org/licenses/BSD-3-Clause.html#licenseText)
   
+- Check the [example](https://docs.moveapps.org/#/appspec/current/license_appspec?id=example)
+- Ask user about the license agreement. Show them the options and briefly explain about the options before asking.
 4- [Language](https://docs.moveapps.org/#/appspec/current/language_appspec)
+  - Check the [example](https://docs.moveapps.org/#/appspec/current/language_appspec?id=example).
   
 5- [Keywords](https://docs.moveapps.org/#/appspec/current/keywords_appspec)
+- Check the [example](https://docs.moveapps.org/#/appspec/current/keywords_appspec?id=example).
+- provide some keywords to user and ask if they want to add more.
   
 6- [People](https://docs.moveapps.org/#/appspec/current/people_appspec)
-  
-7- [Funding](https://docs.moveapps.org/#/appspec/current/funding_appspec)
+- ask user about all the items for the people that are in this [example](https://docs.moveapps.org/#/appspec/current/people_appspec?id=example):
+  "firstName", "middleInitials", "lastName", "email", "roles",  "orcid": null, "affiliation", "affiliationRor"
+- For roles check the [List of roles](https://docs.moveapps.org/#/appspec/current/people_appspec?id=list-of-roles) and then show the options of roles.
+- Ask user about the people and their role in this way:
+enter the first name,  then the next person....
+- list the people like the [example](https://docs.moveapps.org/#/appspec/current/people_appspec?id=example)
+
+7- [Funding](https://docs.moveapps.org/#/appspec/current/funding_appspec) 
+- The funding statement is not mandatory.
+- see the [example](https://docs.moveapps.org/#/appspec/current/funding_appspec?id=example).
   
 8- [References](https://docs.moveapps.org/#/appspec/current/references_appspec)
-
-Every setting needs `id` (matches the R argument name), `name` (short
-label), `description` (plain language), and `defaultValue`. Choose
-`type` based on what the argument represents:
-
-- **STRING** — free text. `null` and `""` are treated the same and
-  passed to the App as `null`.
-- **INTEGER** — whole numbers. Prefer over DOUBLE when decimals aren't
-  needed (more efficient).
-- **DOUBLE** — real/floating-point numbers.
-- **INSTANT** — date/time selection. Always passed to the App as an ISO
-  8601 UTC string, e.g. `"2017-04-01T11:00:00.000Z"` — parse it in R
-  with `format="%Y-%m-%dT%H:%M:%OSZ"`.
-- **RADIOBUTTONS** — a small fixed set of choices. Needs an `options`
-  array of `{value, displayText}` objects, and `defaultValue` must be
-  one of those values (so the user can always return to the default).
-  Omit `defaultValue` entirely if the user must actively choose with no
-  default — but note this removes the "return to default" option.
-- **DROPDOWN** — same shape as RADIOBUTTONS, for a larger option set.
-- **CHECKBOX** — true/false. `defaultValue` must be a literal `true` or
-  `false`, never a string like `"false"`.
-- **SECRET** — passwords, API keys, or other sensitive values. `null`
-  and `""` are treated the same, like STRING. Never hard-code
-  credentials in `RFunction.R` — always route them through a SECRET
-  setting instead, so MoveApps masks them in logs and shared workflows.
-- **USER_FILE** — lets the user upload one auxiliary file via the
-  MoveApps settings menu. One `USER_FILE` setting = one file (bundle
-  multiple related files as a `.zip` if several are needed, e.g. shapefile
-  components). Requires `rFunction`'s argument list to end in `...`, or
-  the uploaded file won't be readable. Pair with `getAuxiliaryFilePath()`
-  in `RFunction.R` (see the RFunction.R section).
-
-## appspec.json — other top-level fields
-
-- `version` — copy from the live fetched template, don't invent it.
-- `dependencies.R` — array of `{"name": "pkgname"}` for CRAN packages.
-  For a non-CRAN package (e.g. `move2`), use the remote-install form
-  instead: `{"remotes": "install_git('...')"}` — match whatever the
-  live template's current example shows.
-- `providedAppFiles` — for each `USER_FILE` setting, an entry mapping
-  its `settingId` to a fallback/sample file path under `data/auxiliary/`,
-  so the App has something to run against by default.
-- `license`, `language`, `keywords`, `people`, `funding`, `references` —
-  metadata not derivable from source code. Ask the user; don't invent
-  placeholder authors or license choices.
+  - Check the [Reference types](https://docs.moveapps.org/#/appspec/current/references_appspec?id=reference-types)
+  - see the [example](https://docs.moveapps.org/#/appspec/current/references_appspec?id=examples) and the Note after that.
+  - If the App is based mainly on a single library, to acknowledge them add it as a [refrence](https://docs.moveapps.org/#/best_practices_coding?id=acknowledgements-and-references).
 
 ## Validation
-
-The finished `appspec.json` can be checked at the MoveApps Settings
-Editor: moveapps.org/apps/settingseditor
-
-
-
-
-Acknowledgements and references : https://docs.moveapps.org/#/best_practices_coding?id=acknowledgements-and-references
-reference section : https://docs.moveapps.org/#/appspec/current/references_appspec
-
-
-Acknowledgements and references : https://docs.moveapps.org/#/best_practices_coding?id=acknowledgements-and-references
-If your App is based mainly on a single library (that you did not author), we advise to give credit to the authors of this library. The best way to acknowledge them is in the appspec.json file in the reference section, and in the documentation of the App.
+- Write all the items above like an example in appspec.json file.
+- The finished `appspec.json` can be checked at the MoveApps [Settings Editor ](https://www.moveapps.org/apps/settingseditor)
