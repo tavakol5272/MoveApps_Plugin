@@ -27,13 +27,18 @@ Currently, the following specifications can/need to be added:
 
 3- [License](https://docs.moveapps.org/#/appspec/current/license_appspec)
 - Check the license options from which the license key has to be entered: [List of license keys](https://docs.moveapps.org/#/appspec/current/license_appspec?id=list-of-license-keys) and then check the links of those 4 options:
+  
     1- [GPL-3.0-or-later](https://spdx.org/licenses/GPL-3.0-or-later.html#licenseText)
+  
     2- [MIT](https://spdx.org/licenses/MIT.html#licenseText)
+  
     3- [AGPL-3.0-or-later](https://spdx.org/licenses/AGPL-3.0-or-later.html#licenseText)
+  
     4- [BSD-3-Clause](https://spdx.org/licenses/BSD-3-Clause.html#licenseText)
   
 - Check the [example](https://docs.moveapps.org/#/appspec/current/license_appspec?id=example)
 - Ask user about the license agreement. Show them the options and briefly explain about the options before asking.
+  
 4- [Language](https://docs.moveapps.org/#/appspec/current/language_appspec)
   - Check the [example](https://docs.moveapps.org/#/appspec/current/language_appspec?id=example).
   
