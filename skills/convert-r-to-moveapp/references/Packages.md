@@ -2,13 +2,13 @@
 Inspect the packages and package functions actually used by the App 
 Use current authoritative sources when determining package status and migration paths. Prefer:
 
-   - CRAN package documentation
+   1- CRAN package documentation
 
-   - The package's official website or repository
+   2- The package's official website or repository
 
-   -  Official migration guides
+   3-  Official migration guides
 
-   -  MoveApps documentation or maintained MoveApps ecosystem repositories
+   4-  MoveApps documentation or maintained MoveApps ecosystem repositories
 
 - Do not rely only on whether a package is archived on CRAN. A package may still be available on CRAN but no longer be recommended for new MoveApps development.
 - Inspect the packages and package functions actually used by the App and create a complete call-by-call table named **Packages Table**  with the following columns:
@@ -17,29 +17,31 @@ Use current authoritative sources when determining package status and migration 
    - Package name.
    - Repeat the package name for every relevant function-call row.
 
-3. **change needed** :
+2. **change needed** :
 
    - Use **Yes** or **No**
    - Mark **Yes** when the package is: deprecated, superseded, archived, retired, or no longer appropriate for current MoveApps development.
    - In particular, treat `move` and `sp` as **Yes**
    - For the packages that does not need changes, keep this column as **No** and other next columns empty.
    
-4. **Function call** :
+3. **Function call** :
 
    One function from the deprecated package per row. If a package has several deprecated calls in the source code, give it one row per call, with the package name repeated down column 1 for each. A non-deprecated package gets a single row with this column left blank.
 
-5. **Replacement package** :
+4. **Replacement package** :
+
    The current replacement, verified against authoritative docs (CRAN, the package's own site, or a migration guide).
    - `move`→`move2` and `sp`→`sf` are fixed by column 2's note regardless of what these sources say.
    - For the move2, consult this [link](https://github.com/move2universe) as a reference.
      
-6. **Function replacement**:
+5. **Function replacement**:
+
    - Give the specific replacement function or migration approach when an authoritative and semantically appropriate mapping exists.
    - Do not invent a one-to-one function mapping.
    - If there is no exact replacement, write a concise migration description instead, such as: No direct equivalent — rewrite using move2 object model
     or  Depends on geometry operation — review sf/terra workflow
 
-7. **Permission of replacement** :
+6. **Permission of replacement** :
     Classify each proposed replacement as:
    - **Direct** : equivalent semantics, compatible inputs/outputs, and sufficiently safe for automatic replacement.
    - **Review** : requires changes to object classes, arguments, return structure, workflow logic, or interpretation; is context-dependent; or has multiple plausible replacements.
