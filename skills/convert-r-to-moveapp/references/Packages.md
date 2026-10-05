@@ -1,30 +1,75 @@
 ## Deprecated packages table
+Inspect the packages and package functions actually used by the App 
+Use current authoritative sources when determining package status and migration paths. Prefer:
 
-Create a complete call-by-call mapping table named **deprecated packages table** with the following columns:
+1- CRAN package documentation
 
-1. **Package** — the package name. Repeat it on every row that belongs to it (see column 3).
-2. **Deprecated** — **Yes**/**No**. Check whether the package is deprecated, superseded, archived, or no longer appropriate for current MoveApps development. Pay particular attention to `move` and `sp`: mark them **Yes** even though they aren't formally archived on CRAN — "no longer appropriate for current MoveApps development" is the real bar here, not CRAN's archive status.
-3. **Function call** — one function from the deprecated package per row. If a package has several deprecated calls in the source code, give it one row per call, with the package name repeated down column 1 for each. A non-deprecated package gets a single row with this column left blank.
-4. **Replacement package** — the current replacement, verified against authoritative docs (CRAN, the package's own site, or a migration guide). Treat `move2` and `sf` as the expected replacements for `move` and `sp`. For the move2, consider this [link](https://github.com/move2universe) as a reference.
-5. **Function replacement** — the specific function/call in the replacement package that this row's call maps to.
-6. **Permission of replacement** — classify each row:
-   - **Direct** — a mechanical rename with equivalent behavior and compatible input/output structure, safe to apply automatically.
-   - **Review** — changes the object model or behavior, is ambiguous between more than one plausible replacement, or depends on how the original code used it.
+2- The package's official website or repository
+
+3- Official migration guides
+
+4- MoveApps documentation or maintained MoveApps ecosystem repositories
+
+- Do not rely only on whether a package is archived on CRAN. A package may still be available on CRAN but no longer be recommended for new MoveApps development.
+- Inspect the packages and package functions actually used by the App and create a complete call-by-call table named **Packages Table**  with the following columns:
+
+1. **Package**:
+   - Package name.
+   - Repeat the package name for every relevant function-call row.
+
+3. **change needed** :
+   - Use **Yes** or **No**
+   - Mark **Yes** when the package is: deprecated, superseded, archived, retired, or no longer appropriate for current MoveApps development.
+   - In particular, treat `move` and `sp` as **Yes**
+   - For the packages that does not need changes, keep this column as **No** and other next columns empty.
+   
+4. **Function call** : 
+one function from the deprecated package per row. If a package has several deprecated calls in the source code, give it one row per call, with the package name repeated down column 1 for each. A non-deprecated package gets a single row with this column left blank.
+5. **Replacement package** :
+   - `move`→`move2` and `sp`→`sf` are fixed by column 2's note regardless of what these sources say.
+   - For the move2, consult this [link](https://github.com/move2universe) as a reference.
+   - 
+6. **Function replacement**:
+   - Give the specific replacement function or migration approach when an authoritative and semantically appropriate mapping exists.
+   - Do not invent a one-to-one function mapping.
+   - If there is no exact replacement, write a concise migration description instead, such as: No direct equivalent — rewrite using move2 object model
+    or  Depends on geometry operation — review sf/terra workflow
+
+7. **Permission of replacement** :
+    Classify each proposed replacement as:
+   - **Direct** : equivalent semantics, compatible inputs/outputs, and sufficiently safe for automatic replacement.
+   - **Review** : requires changes to object classes, arguments, return structure, workflow logic, or interpretation; is context-dependent; or has multiple plausible replacements.
+   - **No direct replacement** : no reliable function-level equivalent exists and the surrounding code must be redesigned.
+  
+## Important migration rules
+
+- Do not classify a replacement as Direct merely because the functions have similar names.
+- Compare arguments, return values, object classes, side effects, and expected behavior.
+- Changes between move and move2 should generally be treated as Review unless equivalence has been explicitly verified.
+- Changes from legacy sp classes/functions to sf or terra should generally be treated as Review when the object model or downstream code changes.
+- A package being available on CRAN does not by itself mean that it is appropriate for new MoveApps development.
+- Verify every proposed replacement against current documentation.
 
 ## Example shape (illustrative, not real mappings):
 
-| Package | Deprecated | Function call | Replacement package | Function replacement | Permission of replacement |
+| Package | change needed | Function call | Replacement package | Function replacement | Permission of replacement |
 |---|---|---|---|---|---|
-| move | Yes | `move()` | move2 | `mt_read()` | Review |
-| move | Yes | `timeLag()` | move2 | `mt_time_lags()` | Direct |
-| sp | Yes | `spTransform()` | sf | `sf::st_transform()` | Direct |
+| move | Yes | `timeLag()` | move2 | `verify current equivalent` | Review |
+| sp | Yes | `spTransform()` | sf | `sf::st_transform()` | Review |
 | lubridate | No | | | | |
 
 
-## Additional rules:
+- The example is illustrative only. Do not copy mappings from the example without independently verifying them.
+- Return the **Packages Table** 
 
-- Keep the number of `library()` calls as small as possible.
-- Use `NCmisc::list.functions.in.file("RFunction.R")` to help identify which package functions are actually used.
-- Do not load an entire package only for a single function when `package::function()` is sufficient.
-- Do not list base R packages in `dependencies.R`.
-- Watch for function masking/conflicts when loading packages; use explicit `package::function()` calls where needed.
+## Package usage rules:
+
+- Keep library() calls to the minimum needed for readable and safe code.
+- Identify the package functions actually used in RFunction.R and any other relevant R source files.
+- NCmisc::list.functions.in.file("RFunction.R") may be used as an aid, but do not rely on it as the sole method of dependency detection.
+- Also inspect explicit package::function() calls, imported functions, dynamically referenced functions, and relevant helper files.
+- Do not load an entire package solely for one or a few functions when explicit package::function() calls are clearer and appropriate.
+- Do not add base or recommended R packages to dependencies.R unless the current MoveApps specification explicitly requires them.
+- Check for function masking and namespace conflicts.
+- Prefer explicit package::function() calls when ambiguity or masking is possible.
+- Ensure that the packages listed in dependencies.R match the packages actually required by the App.
