@@ -81,6 +81,7 @@ Read through the source and identify:
   `dependencies.R` list.
 
 ## step 4. Write the App name
+######## old: ##########
 1- If the user provide the name of the app first check App's display
 title use **Title Case without hyphens** (e.g. `My New App`) then based on
 what the code does, check the name against two things :
@@ -93,7 +94,26 @@ the `movestore` GitHub org or MoveApps App directory  based on
 what the code does and let the user pick one.
 
 All generated files go under a new folder using the chosen name.
+############ new: ######
+## Step 4. Write the App name
 
+1. If the user provides an App name:
+   - Normalize the App's display title to **Title Case without hyphens** (e.g. `My New App`).
+   - Based on what the code actually does, check the proposed name for:
+     - **Suitability**: Does the name accurately describe the App's functionality, or is it too generic, unclear, or misleading?
+     - **Collision**: Does an identical or very similar App name already exist in the `movestore` GitHub organization or the MoveApps App directory?
+   - If the name is unsuitable or conflicts with an existing App, explain the issue and suggest suitable alternatives.
+
+2. If the user has not provided an App name:
+   - Based on the App's functionality, suggest **2–3** suitable names in **Title Case without hyphens**.
+   - Check that the suggested names are not identical or very similar to existing names in the `movestore` GitHub organization or MoveApps App directory.
+   - Let the user choose one of the proposed names.
+
+3. Treat the selected name as the App's canonical display name for the remainder of the workflow. Use it consistently in generated documentation and configuration files.
+
+4. Place all generated App files under a new App folder corresponding to the chosen App name.
+
+   #################################
 ## Step 5. Check the required packages
 
 - Read `references/packages.md`.
