@@ -1,4 +1,6 @@
-## Create a complete call-by-call mapping table named **deprecated packages table** with the following columns:
+## Deprecated packages table
+
+Create a complete call-by-call mapping table named **deprecated packages table** with the following columns:
 
 1. **Package** — the package name. Repeat it on every row that belongs to it (see column 3).
 2. **Deprecated** — **Yes**/**No**. Check whether the package is deprecated, superseded, archived, or no longer appropriate for current MoveApps development. Pay particular attention to `move` and `sp`: mark them **Yes** even though they aren't formally archived on CRAN — "no longer appropriate for current MoveApps development" is the real bar here, not CRAN's archive status.
