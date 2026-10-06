@@ -96,7 +96,7 @@ Before converting anything, determine what the user wants the MoveApps App to do
   - external data/API access;
   - other independent processing steps.
 
-### Decide whether the code should become one App
+### Step 3. Decide whether the code should become one App
 
 Do not assume that one R script should become one MoveApps App.
 
@@ -124,7 +124,7 @@ For each proposed App, explain:
 Present the proposed App structure to the user and ask them to confirm which
 App or Apps they want to create before generating the MoveApps deliverables.
 
-### Check whether the source code is ready for conversion
+### Step 4. Check whether the source code is ready for conversion
 
 Do not assume that incomplete, inconsistent, or partially working R code is
 ready to become a MoveApps App.
@@ -155,7 +155,8 @@ user.
 
 After the App goal, scope, and required source-code changes are agreed, proceed
 with determining the App's IO types and creating the MoveApps deliverables.
-## Step 4. Prepare the conversion plan
+
+## Step 5. Prepare the conversion plan
 
 Before generating any of the MoveApps deliverables, summarize the agreed App design:
 
@@ -173,7 +174,7 @@ Present the plan to the user and ask them to confirm or correct it before
 generating `RFunction.R`, `appspec.json`, `app-configuration.json`, or
 `README.md`.
 
-## Step 4. Understand the code before restructuring it
+## Step 6. Understand the code before restructuring it
 
 Read through the source and identify:
 
@@ -183,7 +184,7 @@ Read through the source and identify:
 - Helper functions that are logically separate from the main entry point.
 - External R packages the code depends on.
 
-## Step 5. Choose the App name
+## Step 7. Choose the App name
 
 1. If the user provides an App name:
    - Normalize the App's display title to **Title Case without hyphens**
@@ -210,7 +211,7 @@ Read through the source and identify:
    or require an App name.
 
   
-## Step 6. Check the required packages
+## Step 8. Check the required packages
 
 - Read `references/Packages.md`.
 - Inspect the packages and package functions used by the selected source code
@@ -227,7 +228,7 @@ Read through the source and identify:
   required by the App and identify which libraries need to be loaded in
   `RFunction.R`.
 
-## Step 7. Determine the IO type
+## Step 9. Determine the IO type
 
 - Read `references/io-types.md` and follow it for the currently supported
   MoveApps R IO types and their requirements.
@@ -240,7 +241,7 @@ Read through the source and identify:
   the data into an unsuitable existing type.
 - State the determined input and output IO types clearly before continuing.
 
-## Step 8. Produce `RFunction.R`
+## Step 10. Produce `RFunction.R`
 
 - Generate the App logic in `RFunction.R`.
 - Before writing or modifying this file, read `references/R_Function.md` and
@@ -251,7 +252,7 @@ Read through the source and identify:
   `providedAppFiles` are bundled into the final MoveApps App. Do not rely on
   any other project files being available at runtime.
 
-### Large fixed or fallback auxiliary files
+###  Step 11. Large fixed or fallback auxiliary files
 
 - If the App uses fixed or fallback auxiliary input files, ask the user
   whether any of those files are larger than 100 MB.
@@ -262,7 +263,7 @@ Read through the source and identify:
   [Adding large fixed or fallback files to an App](https://docs.moveapps.org/#/auxiliary?id=adding-large-fixed-or-fallback-files-to-an-app)
 - Do not create or modify `.gitignore` directly.
 
-## Step 9. Determine App Categories
+## Step 12. Determine App Categories
 
 - Read the official MoveApps documentation for
   [App Categories](https://docs.moveapps.org/#/IO_types?id=app-categories).
@@ -281,7 +282,7 @@ Read through the source and identify:
 - Treat App Categories as submission metadata unless the current MoveApps
   specification explicitly requires them in one of the generated App files.
 
-## Step 10. Produce `appspec.json`
+## Step 13. Produce `appspec.json`
 
 - Before creating `appspec.json`, read `references/appspec.md` and follow all
   of its instructions and linked official MoveApps documentation.
@@ -296,7 +297,7 @@ Read through the source and identify:
   and template before presenting it to the user.
 
   
-## Step 11. Produce `app-configuration.json`
+## Step 14. Produce `app-configuration.json`
 
 - Before creating `app-configuration.json`, read
   `references/app-configuration.md` and follow all of its instructions and
@@ -316,7 +317,7 @@ Read through the source and identify:
   that are not defined in `appspec.json`.
 
   
-## Step 12. Produce `README.md`
+## Step 15. Produce `README.md`
 
 - Before creating `README.md`, read `references/README_guide.md` and follow
   all of its instructions and the linked official MoveApps README template.
@@ -335,7 +336,7 @@ Read through the source and identify:
   presenting it to the user.
 
 
-## Final check
+##  Step 16. Final check
 
 Before finishing, verify that the four MoveApps deliverables are mutually
 consistent and reflect the agreed App design.
