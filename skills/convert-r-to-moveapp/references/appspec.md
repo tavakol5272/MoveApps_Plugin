@@ -29,7 +29,7 @@ Currently, the following specifications can/need to be added:
   - Read and follow the official MoveApps specification for [Dependencies](https://docs.moveapps.org/#/appspec/current/dependencies_appspec) 
   - All libraries on which the App needs for its construction and/or runtime.
   - Do not include any base library in the appspecs.json file.
-  - For a CRAN package, just`{"name": "pkgname"}`. For a package that comes from somewhere else (GitHub, GitLab, etc.), add a [`"remotes"`](https://remotes.r-lib.org/reference/index.html).
+  - For a CRAN package, just use `{"name": "pkgname"}`, if required the version can also be specified in the argument "version":  . For a package that comes from somewhere else (GitHub, GitLab, etc.), use the functions provided by the library  [`"remotes"`](https://remotes.r-lib.org/reference/index.html).
   - Follow the official [Examples](https://docs.moveapps.org/#/appspec/current/dependencies_appspec?id=example).
 
 3-Provided App Files:
@@ -37,7 +37,7 @@ Currently, the following specifications can/need to be added:
 If the App developer can/wants to provide either fixed or fallback auxiliary files, these files must be defined as providedAppFiles. This category of the appspec.json defines the ID by which the auxiliary file can be addressed and its location in the App file bundle.
   - Read and follow the official MoveApps specification for ["providedAppFiles"](https://docs.moveapps.org/#/appspec/current/providedAppFiles_appspec).
   - For more detailed check [Auxiliary Files](https://docs.moveapps.org/#/auxiliary) section.
-  - to upload users' files, see [USER_FILE](https://docs.moveapps.org/#/appspec/current/settings/user_file).
+ 
 
     
 4- License:
@@ -59,6 +59,7 @@ If the App developer can/wants to provide either fixed or fallback auxiliary fil
   - Read and follow the official MoveApps specification for[Language](https://docs.moveapps.org/#/appspec/current/language_appspec).
   - Follow the official [example](https://docs.moveapps.org/#/appspec/current/language_appspec?id=example).
   - Infer the implementation language from the App where possible.
+  - Currently only English is allowed
   
 6- Keywords:
   - Read and follow the official MoveApps specification for [Keywords](https://docs.moveapps.org/#/appspec/current/keywords_appspec)
@@ -69,7 +70,7 @@ If the App developer can/wants to provide either fixed or fallback auxiliary fil
 - Read and follow the official MoveApps specification for [People](https://docs.moveapps.org/#/appspec/current/people_appspec).
 - Follow the official [example](https://docs.moveapps.org/#/appspec/current/people_appspec?id=example).
 - to determine all supported fields and roles. [List of roles](https://docs.moveapps.org/#/appspec/current/people_appspec?id=list-of-roles) and then show the options of roles.
-- Ask the user for information for the people part: "firstName", "middleInitials", "lastName", "email", "roles",  "orcid": null, "affiliation", "affiliationRor".
+- Ask the user for information for the people part: "firstName", "middleInitials", "lastName", "email", "roles",  "orcid", "affiliation", "affiliationRor".
 - list the people like the [example](https://docs.moveapps.org/#/appspec/current/people_appspec?id=example).
 - At least one person must have the creator role, and at least one author must have a valid email — check this before finalizing the list.
 - Do not invent personal information.
