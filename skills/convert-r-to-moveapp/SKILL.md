@@ -8,7 +8,7 @@ description: >
 ---
 
 Convert existing, already-working R analysis code into the content of a
-MoveApps App that follows the `movestore/Template_R_Function_App`
+MoveApps App that follows the [`movestore/Template_R_Function_App`](https://github.com/movestore/Template_R_Function_App)
 conventions. Read `references/template-spec.md` before producing anything —
 it defines the exact structure, the `RFunction.R` contract, and what
 `appspec.json` needs. Read `references/io-types.md` before next step.
