@@ -36,7 +36,7 @@ repository or may require separate user modification or creation for local
 testing and further App development.
 
 
-########################################
+
 **Output mode: text only, never files.** Do not use Write or Edit to create
 or modify files on disk for this skill's output. Present each deliverable as
 its own clearly labeled fenced code block in the chat response, so the user
@@ -209,7 +209,7 @@ Read through the source and identify:
    name is required. Do not add it to files or fields that do not support
    or require an App name.
 
-   #################################
+  
 ## Step 6. Check the required packages
 
 - Read `references/Packages.md`.
@@ -240,171 +240,135 @@ Read through the source and identify:
   the data into an unsuitable existing type.
 - State the determined input and output IO types clearly before continuing.
 
+## Step 8. Produce `RFunction.R`
 
-## step 8. Produce **`RFunction.R`** 
 - Generate the App logic in `RFunction.R`.
-- Before writing or modifying this file, read `references/R_Function.md` and follow its instructions and linked references for the required structure, coding rules, input/output handling, and MoveApps-specific expectations.
+- Before writing or modifying this file, read `references/R_Function.md` and
+  follow its instructions and linked references for the required structure,
+  coding rules, input/output handling, and MoveApps-specific expectations.
 - Keep all App R code in this file unless explicitly instructed otherwise.
-- Only `RFunction.R` and the directories listed in `appspec.json` under `providedAppFiles` are bundled into the final MoveApps App. Do not rely on any other project files being available at runtime.
+- Only `RFunction.R` and the directories listed in `appspec.json` under
+  `providedAppFiles` are bundled into the final MoveApps App. Do not rely on
+  any other project files being available at runtime.
 
+### Large fixed or fallback auxiliary files
 
+- If the App uses fixed or fallback auxiliary input files, ask the user
+  whether any of those files are larger than 100 MB.
+- If any such file is larger than 100 MB, tell the user that handling this is
+  outside the scope of this skill and must be done manually.
+- Instruct the user to add: `data/auxiliary/user-files/provided-app-files/**`  to `.gitignore`.
+- Remind the user to follow the official MoveApps instructions:
+  [Adding large fixed or fallback files to an App](https://docs.moveapps.org/#/auxiliary?id=adding-large-fixed-or-fallback-files-to-an-app)
+- Do not create or modify `.gitignore` directly.
 
-need correction:### note: 4- Adding large fixed or fallback files to an App:
-  ask user if the auxiliary input files are larger than 100MB, if the answer is yes: add data/auxiliary/user-files/provided-app-files/** to the file .gitignore and remind the user this is on them to handle with read this link: https://docs.moveapps.org/#/auxiliary?id=adding-large-fixed-or-fallback-files-to-an-app
+## Step 9. Determine App Categories
 
+- Read the official MoveApps documentation for
+  [App Categories](https://docs.moveapps.org/#/IO_types?id=app-categories).
+- Check the current
+  [MoveApps App Browser](https://www.moveapps.org/apps/browser)
+  to identify the available App Categories.
+- Based on the App's actual purpose and functionality, suggest one or more
+  suitable Categories.
+- Show the proposed Category or Categories to the user and ask them to confirm
+  or correct the selection.
+- Do not invent a Category that does not currently exist.
+- If none of the existing MoveApps Categories suitably describes the App,
+  tell the user that a new Category can be requested during App submission,
+  following the official
+  [App Categories documentation](https://docs.moveapps.org/#/IO_types?id=app-categories).
+- Treat App Categories as submission metadata unless the current MoveApps
+  specification explicitly requires them in one of the generated App files.
 
+## Step 10. Produce `appspec.json`
 
-## step 9. App Categories:
-assign one or more Categories to the App. 
-- First read this : https://docs.moveapps.org/#/IO_types?id=app-categories
-- Check out the App Browser for a list of all available App Categories: https://www.moveapps.org/apps/browser
-- If none of MoveApps' existing Categories fit the App, let the user know they can request a new one directly in the submission interface when they submit: https://docs.moveapps.org/#/IO_types?id=app-categories
+- Before creating `appspec.json`, read `references/appspec.md` and follow all
+  of its instructions and linked official MoveApps documentation.
+- Build `appspec.json` from the final agreed App design, `RFunction.R`,
+  selected IO types, package decisions, settings, auxiliary files, and other
+  verified App metadata.
+- Do not invent values that cannot be verified from the source code, prior
+  workflow decisions, or information provided by the user.
+- Ensure that setting IDs exactly match the corresponding arguments used in
+  `RFunction.R`.
+- Validate the final `appspec.json` against the current MoveApps specification
+  and template before presenting it to the user.
+
   
-## step 9. Produce**`appspec.json`**:
-try fetching the live schema from
-   `raw.githubusercontent.com/movestore/Template_R_Function_App/master/appspec.json`
-   first; fall back to the reference doc if that fails, and say so. One
-   `settings` entry per `rFunction` argument (`id` matching the R argument
-   name exactly, plus `name`, `description`, `defaultValue`, `type`). One
-   `dependencies.R` entry per external package. `providedAppFiles` only
-   for `USER_FILE`-type settings. No App title/description field here —
-   that's `README.md`.
-## step 10. Produce **`app-configuration.json`**: 
-concrete test values for every setting
-   in `appspec.json`, keyed by `id`.
-## step 11. Produce **`README.md`** — what the App does, inputs, outputs, settings, and the
-   IO type from step 3, following the public template's placeholder
-   sections.
+## Step 11. Produce `app-configuration.json`
 
-## step 12. Note what's out of scope, briefly
+- Before creating `app-configuration.json`, read
+  `references/app-configuration.md` and follow all of its instructions and
+  linked MoveApps documentation.
+- Build `app-configuration.json` only from the settings defined in the final
+  `appspec.json`.
+- Use each setting `id` exactly as defined in `appspec.json`.
+- Ask the user for configuration values where needed and validate them against
+  the corresponding setting definitions before writing them.
+- Use defaults from `appspec.json` when the user does not provide a value and
+  a default exists.
+- Do not invent values for settings that have no default.
+- For settings of type `SECRET`, follow the secret-handling rules in
+  `references/app-configuration.md`; never place the real secret value in
+  `app-configuration.json`.
+- Ensure the final result is valid JSON and contains no configuration entries
+  that are not defined in `appspec.json`.
 
-After producing what was asked for, add a short note: `.env` and `tests/`
-still need to be written for local testing, and everything else
-(`Dockerfile`, `sdk.R`, `renv/` bootstrap, etc.) comes from "Use this
-template" on `github.com/movestore/Template_R_Function_App`, not from this
-skill. Mention any judgment calls worth double-checking and whether the
-live `appspec.json` fetch in step 6 succeeded.
+  
+## Step 12. Produce `README.md`
 
-
-
-
-
-
-###############################################
-## 6. Produce the four deliverables
-
-Follow `references/template-spec.md` exactly for structure and field
-expectations.
-
-### RFunction.R
-
-Before writing this file, fetch the current example from
-https://raw.githubusercontent.com/movestore/Template_R_Function_App/master/RFunction.R
-to confirm the current signature and structure. Use it as the pattern.
-If the fetch isn't possible, use the reference structure below and note
-the fallback in the final report.
-
-Reference structure (from the official template):
-
-    library("moveapps")
-    library("move2")
-    # plus any other packages the original code actually needs
-
-    rFunction = function(data, ...) {
-      # adapted logic here
-      return(result)
-    }
-
-**Step A — adapt the logic to `move2` first.**
-Before wrapping anything, transform the core analysis logic itself so it
-properly accepts and returns `move2` objects, not just a data frame with
-the right column names pretending to be one. This means:
-
-- Rewriting the parts of the code that manipulate the data so they use
-  `move2`-aware operations and preserve the object's class and required
-  attributes throughout.
-- Replacing any `print()`/`cat()`/`message()` calls used for status
-  updates with the platform's logger functions instead —
-  `logger.info()`, `logger.warn()`, `logger.error()`, `logger.fatal()`,
-  `logger.debug()`, `logger.trace()` — so messages show up correctly in
-  the App's log on MoveApps.
-- If the original code reads a static reference/lookup file, convert it
-  to an **auxiliary file**: replace the hard-coded path with
-  `getAuxiliaryFilePath("<file-name>")`, so it becomes a file the App
-  developer provides but a workflow user can override.
-- If the plan (step 3) identified output that isn't naturally a `move2`
-  object — a plot, a summary table, any side output — write it out as
-  an **artifact** instead of forcing it into the return value, using
-  `appArtifactPath("<file-name>")` for the output path (e.g.
-  `png(appArtifactPath("plot.png")); plot(...); dev.off()`). Artifacts
-  are downloadable by the workflow user separately from the main data
-  passed to the next App.
-- If the logic aggregates or reshapes the data so severely that nothing
-  sensible remains to pass on as `move2` data, the function may return
-  `NULL` — this is a valid, official pattern ("nothing to hand to the
-  next App"), not an error to avoid. Only stop and ask the user if it's
-  genuinely unclear whether the result should be `NULL`, an artifact, or
-  `move2` data.
-
-**Step B — wrap the adapted logic in `rFunction()`.**
-Wrap the adapted logic in a function literally named `rFunction` that:
-
-- Takes `data` (a `move2` object) as its first argument — this name is
-  reserved, do not rename it.
-- Takes any hard-coded values identified in step 2 as additional named
-  settings arguments.
-- Ends its argument list with `...` to safely absorb any other reserved
-  arguments MoveApps may pass.
-- Returns the result via `return(result)` — `move2` data, or `NULL` per
-  Step A.
-
-If the code had helper functions identified in step 2 as logically
-separate from the main analysis, move them to `src/app/` and add a
-`source()` call at the top of `RFunction.R` to load them.
-
-### appspec.json
-
-Before writing this file, fetch the current example from
-https://raw.githubusercontent.com/movestore/Template_R_Function_App/master/appspec.json
-to confirm current field names — use it as the pattern, including its
-`version` value. If the fetch fails, fall back to
-`references/template-spec.md` and note the fallback in the final report.
-
-Add one `settings` entry per additional `rFunction()` argument from step
-5's Step B, choosing the correct type (see `references/template-spec.md`
-for the full type list and syntax rules). Add `dependencies.R` for every
-package identified in step 2, and `providedAppFiles` for any `USER_FILE`
-setting.
-
-Metadata fields (`license`, `language`, `keywords`, `people`, `funding`,
-`references`) aren't derivable from code — ask the user rather than
-inventing placeholder values; if they have no preference, leave the
-fetched template's values and flag that in the final report.
-
-Mention that the finished file can be validated at
-moveapps.org/apps/settingseditor before submission.
-
-#####################
-
-#########################################
+- Before creating `README.md`, read `references/README_guide.md` and follow
+  all of its instructions and the linked official MoveApps README template.
+- Build the README from the final agreed App design and the completed App
+  files, especially `RFunction.R`, `appspec.json`, and
+  `app-configuration.json`.
+- Ensure the README accurately reflects the App's actual purpose, scope,
+  required data properties, input/output types, settings, artefacts, changes
+  in output data, error/null handling, and technical details.
+- Use the selected App display name consistently.
+- Do not invent repository information, functionality, settings, data
+  requirements, outputs, artefacts, or runtime behavior.
+- If required information cannot be verified, follow
+  `references/README_guide.md` for how to mark it.
+- Verify the final README against the current MoveApps template before
+  presenting it to the user.
 
 
+## Final check
 
+Before finishing, verify that the four MoveApps deliverables are mutually
+consistent and reflect the agreed App design.
 
+Check that:
 
-### Validate appspec.json   ?????????????????????????????????????????????
+- `RFunction.R` implements only the agreed App functionality and follows the
+  declared input/output contract.
+- The input and output IO types are consistent with the actual data structures
+  used by `RFunction.R`.
+- Every user-configurable argument in `RFunction.R` that should be exposed as
+  a setting has a matching setting in `appspec.json`.
+- Setting IDs in `appspec.json` exactly match the corresponding `RFunction.R`
+  argument names.
+- `app-configuration.json` contains only settings defined in `appspec.json`
+  and follows the required value formats.
+- `SECRET` values are represented safely and no real credentials appear in
+  any generated content.
+- Package dependencies in `appspec.json` match the packages actually required
+  by the final `RFunction.R`.
+- Auxiliary files and `providedAppFiles`, if used, are handled consistently
+  across `RFunction.R`, `appspec.json`, and the README.
+- The App name is used consistently wherever a display name is required.
+- `README.md` accurately documents the final App implementation and does not
+  describe functionality, settings, outputs, artefacts, or behavior that are
+  not present in the App.
+- No information has been invented where the source code, user confirmation,
+  or official MoveApps documentation does not support it.
 
+If any inconsistency is found, correct the affected deliverable before
+presenting the final result.
 
-
-### .env / app-configuration.json
-
-
-
-### Dockerfile
-
-### renv.lock
-
-### README.md
-
-## Report back
-
+Finally, present only the deliverable or deliverables requested by the user,
+each in its own clearly labeled fenced code block. If an earlier deliverable
+would also need to change to remain consistent, tell the user which one needs
+to be updated.
