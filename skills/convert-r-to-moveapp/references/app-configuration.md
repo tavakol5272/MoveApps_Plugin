@@ -2,10 +2,11 @@
 
 To configure the App for local execution, create or update `app-configuration.json`.
 
-- First, read the MoveApps documentation for [app-configuration.json](https://docs.moveapps.org/#/run_app_locally?id=_1-file-app-configurationjson) and follow its rules when constructing the file, including the required formatting for setting values such as timestamps, multi-value settings, booleans, and empty values.
+- First, read the MoveApps documentation for [app-configuration.json](https://docs.moveapps.org/#/run_app_locally?id=_1-file-app-configurationjson) 
+and follow its rules when constructing the file, including the required formatting for setting values such as timestamps, multi-value settings, booleans, and empty values.
 - Follow the structure of the official MoveApps [Template](https://github.com/movestore/Template_R_Function_App/blob/master/app-configuration.json).
 - Read the `settings` defined in `appspec.json`.
-  For each setting:
+  For each parameter in setting:
   - extract its `id`;
   - identify its expected data type, allowed values or range, and default value, if defined, directly from the corresponding setting entry in `appspec.json`;
   - show the setting to the user in a clear form and ask which value they want to use.
@@ -24,6 +25,6 @@ To configure the App for local execution, create or update `app-configuration.js
 
 - Ensure the final file is valid JSON and contains only configuration entries corresponding to settings defined in `appspec.json`.
 
-- If a setting is of type `SECRET`, treat its value as sensitive. It may be written to `app-configuration.json` for local testing when needed, but do not expose it in documentation, logs, examples, or generated messages.
-- Warn the user not to commit or publish `app-configuration.json` if it contains real secret values.
-
+- If a setting is of type SECRET, do not write its real value into app-configuration.json. Set that setting's value to the literal placeholder string "secret" instead — never the actual password, API key, token, or other credential.
+- Tell the user that the real secret value must be handled outside app-configuration.json for local testing. Show the user the official MoveApps documentation and ask them to follow its instructions: [Dealing with passwords](https://docs.moveapps.org/?utm_source=chatgpt.com#/create_app?id=dealing-with-passwords).
+- Never expose or reproduce the real secret value in generated files, examples, logs, documentation, or messages.
