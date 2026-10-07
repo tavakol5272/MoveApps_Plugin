@@ -19,16 +19,5 @@
 - Before finalizing, verify that:
   - the App title is present and follows the **Title Case without hyphens** convention;
   - the `Github repository:` line is present and is either filled with the user-provided repository URL or correctly left blank, with no template placeholder remaining;
-  - all required template sections are present:
-    - Description
-    - Documentation
-    - Application scope
-      - Generality of App usability
-      - Required data properties
-    - Input type
-    - Output type
-    - Artefacts
-    - Settings
-    - Changes in output data
-    - Errors and null handling
+  - all required sections in template are present.
   - the optional **Technical details** section is included when sufficient implementation information is available.
