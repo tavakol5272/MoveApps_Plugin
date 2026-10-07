@@ -15,12 +15,18 @@ Read each reference file at the workflow step where it is required.
 
 **Scope: exactly four deliverables, no more.**
 
-This skill only produces the content of:
+This skill only produces the content of the files below. Generate the deliverables in this order:
+1- `RFunction.R`
+2- `appspec.json`
+3- `app-configuration.json`
+4- `README.md`
+The user may request the deliverables one at a time across several messages,
+but this order must be preserved. `README.md` must always be generated last.
 
-- `README.md`
-- `RFunction.R`
-- `appspec.json`
-- `app-configuration.json`
+If the user requests a deliverable before its required earlier deliverables
+have been completed, do not generate it out of order. Explain which prerequisite
+deliverable must be completed first and ask whether the user wants to proceed
+with that prerequisite.
 
 It does not create or modify `.env`, `tests/`, `src/app/`, `Dockerfile`,
 `sdk.R`, `renv.lock`, or any other template/SDK file.
@@ -38,7 +44,7 @@ or modify files on disk for this skill's output. Present each deliverable as
 its own clearly labeled fenced code block in the chat response, so the user
 can review and copy it into their own local copy of the template.
 
-**One file at a time.** The user may request the four deliverables one at a
+**Incremental delivery.** The user may request the four deliverables one at a
 time across several messages. Keep all generated deliverables consistent
 with one another. For example, setting IDs in `appspec.json` and
 `app-configuration.json` must match the corresponding argument names in
@@ -116,8 +122,17 @@ For each proposed App, explain:
 - how it relates to the other proposed Apps;
 - why separating it would improve the MoveApps Workflow.
 
-Present the proposed App structure to the user and ask them to confirm which
-App or Apps they want to create before generating the MoveApps deliverables.
+Present the proposed App structure to the user.
+
+If multiple Apps are recommended, ask the user to choose which single App they
+want to create in this conversion workflow.
+
+Continue Steps 4–16 only for the selected App.
+
+Do not generate deliverables for more than one App in the same conversion
+workflow. The user can start a separate conversion for another proposed App
+afterward.
+
 
 ### Step 4. Check whether the source code is ready
 
@@ -227,10 +242,14 @@ Before generating any of the MoveApps deliverables, summarize the agreed App des
 - the input IO type;
 - the output IO type;
 - the expected artifacts, if any;
-- the user-configurable settings likely to be needed;
+- the agreed user-configurable settings, including each setting `id` and how it
+  will be received by `RFunction.R`, following the setting-specific and
+  auxiliary-file rules;
 - any source-code changes that must be made before or during conversion.
 
-Do not modify the scientific or statistical intent of the analysis in this step.
+Before proceeding, resolve the settings needed by the selected App and their
+IDs. Do not invent or rename setting IDs later when generating `RFunction.R`
+or `appspec.json`.
 
 Present the plan to the user and ask them to confirm or correct it before
 generating `RFunction.R`, `appspec.json`, `app-configuration.json`, or
@@ -302,18 +321,16 @@ generating `RFunction.R`, `appspec.json`, `app-configuration.json`, or
 - Use each setting `id` exactly as defined in `appspec.json`.
 - Ask the user for configuration values where needed and validate them against
   the corresponding setting definitions before writing them.
-- Use defaults from `appspec.json` when the user does not provide a value and
-  a default exists.
-- Do not invent values for settings that have no default.
-- For settings of type `SECRET`, follow the secret-handling rules in
-  `references/app-configuration.md`; never place the real secret value in
-  `app-configuration.json`.
+- Follow the default-value, type-specific, `SECRET`, and `USER_FILE` handling
+  rules defined in `references/app-configuration.md`.
 - Ensure the final result is valid JSON and contains no configuration entries
   that are not defined in `appspec.json`.
 
   
 ### Step 15. Produce `README.md`
 
+- Produce `README.md` only after `RFunction.R`, `appspec.json`, and
+  `app-configuration.json` have been completed.
 - Before creating `README.md`, read `references/README_guide.md` and follow
   all of its instructions and the linked official MoveApps README template.
 - Build the README from the final agreed App design and the completed App
@@ -333,9 +350,18 @@ generating `RFunction.R`, `appspec.json`, `app-configuration.json`, or
 
 ### Step 16. Final check
 
-Before finishing, verify that the four MoveApps deliverables are mutually
-consistent and reflect the agreed App design.
+Before finishing, verify the generated deliverable or deliverables against the
+agreed App design and any previously generated deliverables.
 
+If all four deliverables have been generated, verify that they are mutually
+consistent.
+
+If only some deliverables have been generated, check consistency only against
+the deliverables that already exist, and identify any constraints that future
+deliverables must follow.
+
+Apply each check below only when the deliverable or deliverables referenced by
+that check have already been generated.
 Check that:
 
 - `RFunction.R` implements only the agreed App functionality and follows the
@@ -348,8 +374,8 @@ Check that:
   argument names.
 - `app-configuration.json` contains only settings defined in `appspec.json`
   and follows the required value formats.
-- `SECRET` values are represented safely and no real credentials appear in
-  any generated content.
+- Special setting types such as `SECRET` and `USER_FILE` are handled according
+  to `references/app-configuration.md`.
 - Package dependencies in `appspec.json` match the packages actually required
   by the final `RFunction.R`.
 - Auxiliary files and `providedAppFiles`, if used, are handled consistently
@@ -361,10 +387,12 @@ Check that:
 - No information has been invented where the source code, user confirmation,
   or official MoveApps documentation does not support it.
 
-If any inconsistency is found, correct the affected deliverable before
-presenting the final result.
+If an inconsistency affects the deliverable currently being generated, correct
+it before presenting the result.
+
+If resolving the inconsistency also requires changing an earlier deliverable,
+do not silently regenerate that deliverable unless the user requested it.
+Tell the user which earlier deliverable needs to be updated.
 
 Finally, present only the deliverable or deliverables requested by the user,
-each in its own clearly labeled fenced code block. If an earlier deliverable
-would also need to change to remain consistent, tell the user which one needs
-to be updated.
+each in its own clearly labeled fenced code block.
