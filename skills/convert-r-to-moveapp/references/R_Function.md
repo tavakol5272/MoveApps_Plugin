@@ -49,7 +49,7 @@ for the full list. The guidance below only applies when the App's input type is 
 8. **Creating the function**
    - name the Function `rFunction` with this structure:
 ```r
-     rFunction = function(data, ...) {
+     rFunction = function(data, setting_id_1, setting_id_2, ...) {
        ...
        return(result)
      }
