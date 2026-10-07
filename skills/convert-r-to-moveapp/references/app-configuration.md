@@ -14,11 +14,11 @@ and follow its rules when constructing the file, including the required formatti
        - `INTEGER` → JSON integer
        - `DOUBLE` → JSON number
        - `TIMESTAMP` → Read [app-configuration.json](https://docs.moveapps.org/#/run_app_locally?id=_1-file-app-configurationjson) 
-       - `RADIOBUTTONS`, `DROPDOWN`  → show the allowed option values to the user and ask which value they want to use.
+       - `RADIOBUTTONS`, `DROPDOWN`  → show the allowed option values to the user and ask which value they want to use. Validate the selected value against the allowed options defined in `appspec.json`.
        - `CHECKBOX` → JSON boolean. The Value must be either true or false. It cannot be a string, such as "False".
        - `SECRET` → do not write its real value into app-configuration.json. Set that setting's value to the literal placeholder string "secret" instead — never the actual password, API key, token, or other credential. Tell the user that                   the real secret value must be handled outside app-configuration.json for local testing. Show the user the official MoveApps documentation and ask them to follow its instructions:
          [Dealing with passwords](https://docs.moveapps.org/?utm_source=chatgpt.com#/create_app?id=dealing-with-passwords). Never expose or reproduce the real secret value in generated files, examples, logs, documentation, or messages.
-       - `USER_FILE` → do not assume ordinary scalar-value handling and do not invent a local value or file path yourself — the correct local-testing setup depends on which auxiliary-file pattern the App uses.
+       - `USER_FILE` → do not assume ordinary scalar-value handling and do not invent a local value or file path yourself — the correct local-testing setup depends on which auxiliary-file pattern the App uses. Follow the `Auxiliary/user files` rules in `appspec.md` .
 
   - For setting types that allow multiple values, use the exact representation required by the current MoveApps documentation.
   - Do not infer or invent a value format from the setting name alone.
