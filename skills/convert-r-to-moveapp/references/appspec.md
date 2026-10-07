@@ -29,7 +29,7 @@ Currently, the following specifications can/need to be added:
   - Read and follow the official MoveApps specification for [Dependencies](https://docs.moveapps.org/#/appspec/current/dependencies_appspec) 
   - All libraries on which the App needs for its construction and/or runtime.
   - Do not include any base library in the appspecs.json file.
-  - For a CRAN package, just use `{"name": "pkgname"}`, if required the version can also be specified in the argument "version":  . For a package that comes from somewhere else (GitHub, GitLab, etc.), use the functions provided by the library  [`"remotes"`](https://remotes.r-lib.org/reference/index.html).
+  - For a CRAN package, just use `{"name": "pkgname"}`, if required the version can also be specified in the argument "version". For a package that comes from somewhere else (GitHub, GitLab, etc.), use the functions provided by the library  [`"remotes"`](https://remotes.r-lib.org/reference/index.html).
   - Follow the official [Examples](https://docs.moveapps.org/#/appspec/current/dependencies_appspec?id=example).
 
 3-Provided App Files:
