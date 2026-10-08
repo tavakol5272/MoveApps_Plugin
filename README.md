@@ -72,25 +72,11 @@ Direct file writing may be considered later after the text-based workflow has
 been validated with real R projects.
 
 ## Scope
-
-The Skill only produces:
-
-- `RFunction.R`
-- `appspec.json`
-- `app-configuration.json`
-- `README.md`
-
-It does not create or modify:
-
-- `.env`
-- `tests/`
-- `src/app/`
-- `Dockerfile`
-- `sdk.R`
-- `renv.lock`
-- other MoveApps SDK or template infrastructure
-
+The Skill only produces the four deliverable files listed above. 
+It does not create or modify other MoveApps template or SDK files,
+including `.env`, `tests/`, `src/app/`, `Dockerfile`, `sdk.R`, and `renv.lock`.
 Those files remain outside the scope of the current Skill.
+
 
 ## Reference Guidelines
 
@@ -99,55 +85,22 @@ reference files for the technical details of each part of the conversion.
 
 ### `R_Function.md`
 
-Defines the requirements for `RFunction.R`, including:
-
-- the `rFunction` entry point;
-- MoveApps input and output contracts;
-- named setting arguments and trailing `...`;
-- MoveApps-compatible logging;
-- handling of `move2` objects;
-- CRS and time-zone requirements;
-- auxiliary files;
-- artifacts;
-- package loading and namespace conflicts;
-- final output validation.
+Defines how `RFunction.R` should be structured and validated for MoveApps,
+including the `rFunction` entry point, input/output handling, settings,
+packages, auxiliary files, logging, spatial/time requirements, artifacts,
+and final output checks.
 
 ### `appspec.md`
 
-Defines how `appspec.json` is built and validated, including:
-
-- settings;
-- dependencies;
-- provided App files;
-- license;
-- language;
-- keywords;
-- people;
-- funding;
-- references.
-
-The current MoveApps template and documentation are consulted instead of
-inventing unsupported metadata.
+Defines how `appspec.json` is created and validated, including settings,
+dependencies, auxiliary files, licensing, people, funding, references, and
+other supported MoveApps metadata.
 
 ### `app-configuration.md`
 
-Defines how the settings from `appspec.json` are represented for local
-execution.
-
-It includes rules for:
-
-- setting IDs;
-- default values;
-- strings;
-- integers;
-- doubles;
-- timestamps;
-- radio buttons;
-- dropdowns;
-- checkboxes;
-- secrets;
-- user-uploaded auxiliary files;
-- type-specific value validation.
+Defines how `appspec.json` settings are represented in
+`app-configuration.json` for local execution, including defaults, value
+formats, validation, secrets, and user-uploaded auxiliary files.
 
 ### `io-types.md`
 
@@ -160,20 +113,13 @@ instructs the user that a new IO type may need to be requested.
 
 ### `Packages.md`
 
-Defines a package-review step before conversion.
+Defines how package usage is reviewed before conversion, including deprecated or
+superseded packages, affected function calls, possible replacements, and whether
+a migration can be applied directly or requires user review.
 
-The Skill creates a Packages Table that identifies:
-
-- packages used by the source;
-- whether a package requires migration;
-- affected function calls;
-- proposed replacement packages or approaches;
-- whether the replacement is safe to apply automatically or requires user
-  review.
-
-Potentially significant migrations, such as changes from `move` to `move2` or
-from `sp` to `sf`, are not silently applied when they could change object
-classes, arguments, outputs, or workflow behavior.
+Potentially significant migrations, such as `move` → `move2` or `sp` → `sf`,
+are not applied automatically when they may change classes, arguments, outputs,
+or workflow behavior.
 
 ### `README_guide.md`
 
@@ -216,19 +162,13 @@ the user's R code.
 
 ### No invented App behavior
 
-The Skill is instructed not to invent:
+The Skill does not invent missing analysis logic, unsupported IO types,
+settings, package replacements, metadata, file paths, repository information,
+or scientific behavior that is not supported by the source code or MoveApps
+documentation.
 
-- missing analysis logic;
-- unsupported IO types;
-- setting IDs or values;
-- package replacements;
-- App metadata;
-- repository information;
-- auxiliary-file paths;
-- scientific behavior not present in the source.
-
-When required information cannot be verified, the user is asked for it or the
-result is explicitly marked as needing verification.
+If required information cannot be verified, the user is asked for it or the
+result is marked as needing verification.
 
 ### No automatic publication
 
@@ -239,25 +179,15 @@ Generated content is returned to the user for review.
 
 ## Current Development Status
 
-The initial conversion workflow, `SKILL.md`, and the supporting reference
-guidelines have been developed.
+The conversion workflow, `SKILL.md`, and supporting reference guidelines have
+been developed.
 
-The current phase is runtime testing with real R scripts using Claude.
+The project is now in runtime testing with real R scripts using Claude. Testing
+focuses on the usability and consistency of the generated MoveApps files,
+including package migration, IO type selection, settings, auxiliary files, and
+cross-file compatibility.
 
-Testing will focus on whether:
-
-- the workflow works correctly in practice;
-- the four generated deliverables are usable in MoveApps;
-- package migrations are handled safely;
-- IO types are selected correctly;
-- settings remain consistent across files;
-- auxiliary-file handling works as expected;
-- the generated files remain mutually consistent;
-- additional instructions or refinements are needed during real conversion
-  runs.
-
-Further changes to the Skill will be based primarily on issues observed during
-these runtime tests.
+Further refinements will be based on issues identified during these test runs.
 
 ## Planned Development
 
@@ -266,4 +196,4 @@ these runtime tests.
 3. Refine the Skill and reference guidelines.
 4. Validate the generated files against MoveApps templates and documentation.
 5. Evaluate whether direct file-writing should be added as a future mode.
-6. Package and refine the workflow as a reusable Claude Code plugin.
+6. Set up a marketplace listing and distribution workflow so the plugin can be installed and updated by other users.
