@@ -176,25 +176,71 @@ Read through the source and identify:
 - Helper functions that are logically separate from the main entry point.
 - External R packages the code depends on.
 
-### Step 6. Choose the App name
+
+### Step 6. Check for existing Apps with the same or overlapping purpose
+
+- Check the current MoveApps App list at
+  `https://www.moveapps.org/api/v1/apps/repositories`.
+
+- Compare the proposed App against existing Apps using the `title` and
+  `description` fields.
+
+- If an existing App appears to have the same or substantially overlapping
+  purpose, inspect its latest published implementation using
+  `latestVersion.sourceCodeUrl`, when available.
+
+- Review the latest source code closely enough to determine what the existing
+  App actually does, including its main processing steps, inputs, outputs,
+  settings, and generated artefacts where relevant.
+
+- Compare the actual implemented purpose and functionality of the existing App
+  with the proposed App rather than relying only on the App title or
+  description.
+
+- Determine whether the proposed App is:
+  - functionally repetitive;
+  - partially overlapping but meaningfully different; or
+  - clearly distinct.
+
+- Summarize the main similarities and differences for the user and explain the
+  basis for the comparison.
+
+- Prefer a direct link to the existing App in MoveApps for the user-facing
+  reference. Use repository or source-code links only for technical inspection.
+
+- Show the user:
+  - the existing App title;
+  - a direct link to the App in MoveApps;
+  - its latest published version or tag.
+
+- If the proposed App appears functionally repetitive or substantially
+  overlapping, ask the user whether they still want to proceed.
+
+- Do not continue with the conversion until the user confirms.
+
+### Step 7. Choose the App name
 
 1. If the user provides an App name:
    - Normalize the App's display title to **Title Case without hyphens**
      (e.g. `My New App`).
-   - Based on what the App actually does, check the proposed name for:
+   - Check the proposed name for:
      - **Suitability**: Does it accurately describe the App's functionality,
        or is it too generic, unclear, or misleading?
-     - **Collision**: Check the current `movestore` GitHub organization and
-       MoveApps App directory for identical or very similar existing App names.
-   - If the name is unsuitable or conflicts with an existing App, explain the
-     issue and suggest suitable alternatives.
+     - **Name collision**: Check the current MoveApps App list at
+       `https://www.moveapps.org/api/v1/apps/repositories` and compare the
+       proposed name against the values in the `title` field. Avoid names that
+       are identical or very similar to existing App titles.
+   - If the name is unsuitable or conflicts with an existing App title,
+     explain the issue and suggest suitable alternatives.
 
 2. If the user has not provided an App name:
    - Based on the App's functionality, suggest **2–3** suitable names in
      **Title Case without hyphens**.
-   - Check the current `movestore` GitHub organization and MoveApps App
-     directory to avoid suggesting names that are identical or very similar
-     to existing Apps.
+   - Check the current MoveApps App list at
+     `https://www.moveapps.org/api/v1/apps/repositories` and compare the
+     suggested names against the values in the `title` field.
+   - Do not suggest names that are identical or very similar to existing App
+     titles.
    - Let the user choose one of the proposed names.
 
 3. Treat the selected name as the App's canonical display name for the
@@ -203,7 +249,7 @@ Read through the source and identify:
    or require an App name.
 
   
-### Step 7. Check the required packages
+### Step 8. Check the required packages
 
 - Read `references/Packages.md`.
 - Inspect the packages and package functions used by the selected source code
@@ -220,7 +266,7 @@ Read through the source and identify:
   required by the App and identify which libraries need to be loaded in
   `RFunction.R`.
 
-### Step 8. Determine the IO type
+### Step 9. Determine the IO type
 
 - Read `references/io-types.md` and follow it for the currently supported
   MoveApps R IO types and their requirements.
@@ -233,7 +279,7 @@ Read through the source and identify:
   the data into an unsuitable existing type.
 - State the determined input and output IO types clearly before continuing.
 
-### Step 9. Prepare the conversion plan and get user confirmation
+### Step 10. Prepare the conversion plan and get user confirmation
 
 Before generating any of the MoveApps deliverables, summarize the agreed App design:
 
@@ -255,7 +301,7 @@ Present the plan to the user and ask them to confirm or correct it before
 generating `RFunction.R`, `appspec.json`, `app-configuration.json`, or
 `README.md`.
 
-### Step 10. Produce `RFunction.R`
+### Step 11. Produce `RFunction.R`
 
 - Generate the App logic in `RFunction.R`.
 - Before writing or modifying this file, read `references/R_Function.md` and
@@ -266,7 +312,7 @@ generating `RFunction.R`, `appspec.json`, `app-configuration.json`, or
   `providedAppFiles` are bundled into the final MoveApps App. Do not rely on
   any other project files being available at runtime.
 
-### Step 11. Check large fixed or fallback auxiliary files, if applicable
+### Step 12. Check large fixed or fallback auxiliary files, if applicable
 
 - If the App uses fixed or fallback auxiliary input files, ask the user
   whether any of those files are larger than 100 MB.
@@ -277,7 +323,7 @@ generating `RFunction.R`, `appspec.json`, `app-configuration.json`, or
   [Adding large fixed or fallback files to an App](https://docs.moveapps.org/#/auxiliary?id=adding-large-fixed-or-fallback-files-to-an-app)
 - Do not create or modify `.gitignore` directly.
 
-### Step 12. Determine App Categories
+### Step 13. Determine App Categories
 
 - Read the official MoveApps documentation for
   [App Categories](https://docs.moveapps.org/#/IO_types?id=app-categories).
@@ -296,7 +342,7 @@ generating `RFunction.R`, `appspec.json`, `app-configuration.json`, or
 - Treat App Categories as submission metadata unless the current MoveApps
   specification explicitly requires them in one of the generated App files.
 
-### Step 13. Produce `appspec.json`
+### Step 14. Produce `appspec.json`
 
 - Before creating `appspec.json`, read `references/appspec.md` and follow all
   of its instructions and linked official MoveApps documentation.
@@ -311,7 +357,7 @@ generating `RFunction.R`, `appspec.json`, `app-configuration.json`, or
   and template before presenting it to the user.
 
   
-### Step 14. Produce `app-configuration.json`
+### Step 15. Produce `app-configuration.json`
 
 - Before creating `app-configuration.json`, read
   `references/app-configuration.md` and follow all of its instructions and
@@ -327,7 +373,7 @@ generating `RFunction.R`, `appspec.json`, `app-configuration.json`, or
   that are not defined in `appspec.json`.
 
   
-### Step 15. Produce `README.md`
+### Step 16. Produce `README.md`
 
 - Produce `README.md` only after `RFunction.R`, `appspec.json`, and
   `app-configuration.json` have been completed.
@@ -348,7 +394,7 @@ generating `RFunction.R`, `appspec.json`, `app-configuration.json`, or
   presenting it to the user.
 
 
-### Step 16. Final check
+### Step 17. Final check
 
 Before finishing, verify the generated deliverable or deliverables against the
 agreed App design and any previously generated deliverables.
