@@ -41,7 +41,7 @@ where available, `telemetrylist_aeqd`:
 
 - ???? If the user wants to test an additional dataset of their own:
   - tell them to place the `.rds` file in `./data/raw/`
-  - - ask them for the file name;
+  - ask them for the file name;
   - verify that it is compatible with the App's declared input IO type;
   - include it as an additional test case by updating `SOURCE_FILE` for that run.
   - .....
