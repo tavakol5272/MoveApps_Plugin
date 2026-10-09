@@ -3,6 +3,7 @@
 The appspec.json file is used to define the specifications of an App within MoveApps.
 - Read and follow the official [App Specification](https://docs.moveapps.org/#/appspec?id=appspecjson)
 - Fetch the current [Template_R_Function_App/appspec.json](https://github.com/movestore/Template_R_Function_App/blob/master/appspec.json) as the structural template.
+- Use the template only for the structure and field names. Do not copy its example values (settings, dependencies, providedAppFiles, keywords, people, funding, references) into the App.
 - For `version`, use the value or format required by the current live in [Template_R_Function_App/appspec.json](https://github.com/movestore/Template_R_Function_App/blob/master/appspec.json). Do not invent it.
   
 Currently, the following specifications can/need to be added:
@@ -31,6 +32,7 @@ Currently, the following specifications can/need to be added:
   - Do not include any base library in the appspecs.json file.
   - For a CRAN package, just use `{"name": "pkgname"}`, if required the version can also be specified in the argument "version". For a package that comes from somewhere else (GitHub, GitLab, etc.), use the functions provided by the library  [`"remotes"`](https://remotes.r-lib.org/reference/index.html).
   - Follow the official [Examples](https://docs.moveapps.org/#/appspec/current/dependencies_appspec?id=example).
+  - Do not list the MoveApps SDK package `moveapps` in the dependencies. MoveApps provides it in every R App, even though `RFunction.R` loads it with `library("moveapps")`.
 
 3-Provided App Files:
 
