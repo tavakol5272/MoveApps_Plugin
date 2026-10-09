@@ -367,11 +367,15 @@ generating `RFunction.R`, `appspec.json`, `app-configuration.json`, or
 - Use each setting `id` exactly as defined in `appspec.json`.
 - Ask the user for configuration values where needed and validate them against
   the corresponding setting definitions before writing them.
-- Follow the default-value, type-specific, `SECRET`, and `USER_FILE` handling
-  rules defined in `references/app-configuration.md`.
+- Follow the default-value, type-specific, and `USER_FILE` handling rules
+  defined in `references/app-configuration.md`.
+- If any setting in `appspec.json` has type `SECRET`, read and follow
+  `references/Dealing_with_secret_credentials.md`.
+- Never ask the user to paste real sensitive credentials into the conversation,
+  and never expose, store, or hard-code passwords, personal API keys, access
+  tokens, client secrets, or other authentication credentials.
 - Ensure the final result is valid JSON and contains no configuration entries
   that are not defined in `appspec.json`.
-
   
 ### Step 16. Produce `README.md`
 
