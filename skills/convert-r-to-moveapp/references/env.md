@@ -40,7 +40,7 @@ where available, `telemetrylist_aeqd`:
 - Do not rename `SOURCE_FILE` or change unrelated `.env` settings.
 - Tell the user that for more intensive testing, they can choose the test dataset from the [Movebank Example Datasets](https://github.com/movestore/Movebank_Example_Datasets/blob/main/README.md).
 
-- ???? If the user wants to test an additional dataset of their own:
+       - ???? If the user wants to test an additional dataset of their own:
   - tell them to place the `.rds` file in `./data/raw/`
   - ask them for the file name;
   - verify that it is compatible with the App's declared input IO type;
