@@ -16,10 +16,15 @@ Read each reference file at the workflow step where it is required.
 **Scope: exactly four deliverables, no more.**
 
 This skill only produces the content of the files below. Generate the deliverables in this order:
+
 1- `RFunction.R`
+
 2- `appspec.json`
+
 3- `app-configuration.json`
+
 4- `README.md`
+
 The user may request the deliverables one at a time across several messages,
 but this order must be preserved. `README.md` must always be generated last.
 
@@ -355,6 +360,8 @@ generating `RFunction.R`, `appspec.json`, `app-configuration.json`, or
   `RFunction.R`.
 - Validate the final `appspec.json` against the current MoveApps specification
   and template before presenting it to the user.
+- If any setting has type `SECRET`, read and follow
+  `references/Dealing_with_secret_credentials.md` when defining that setting.
 
   
 ### Step 15. Produce `app-configuration.json`
@@ -424,8 +431,10 @@ Check that:
   argument names.
 - `app-configuration.json` contains only settings defined in `appspec.json`
   and follows the required value formats.
-- Special setting types such as `SECRET` and `USER_FILE` are handled according
-  to `references/app-configuration.md`.
+- Handle `USER_FILE` according to `references/app-configuration.md` and
+  `SECRET` according to `references/Dealing_with_secret_credentials.md`.
+- No real `SECRET` credential is requested, exposed, stored, or hard-coded in
+  any generated deliverable.
 - Package dependencies in `appspec.json` match the packages actually required
   by the final `RFunction.R`.
 - Auxiliary files and `providedAppFiles`, if used, are handled consistently
