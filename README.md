@@ -88,6 +88,10 @@ If the user asks to test the generated App with one or more datasets:
   `app-configuration.json`;
 - ask the user which dataset or datasets should be used if none were provided.
 
+Note: To get the new data set to test the app localy, user can use [Movebank Example Datasets](https://github.com/movestore/Movebank_Example_Datasets/blob/main/README.md).
+There they can get the resource in cases such as deployments, multiple sensor types, milliseconds, identifiers, non-location data, duplicates, outliers, and partial data access.
+
+
 ### Reference Guidelines
 
 The main `SKILL.md` controls the conversion workflow and uses dedicated
