@@ -1,4 +1,4 @@
-- Use this online version of [Mastering Shiny (by Hadley Wickham, published by O’Reilly Media in April 2021)](https://mastering-shiny.org/) as a refrence.
+- Use this online version of [Mastering Shiny (by Hadley Wickham, published by O’Reilly Media in April 2021)](https://mastering-shiny.org/) as a reference.
 - Check this [shiny link](https://shiny.posit.co/r/getstarted/shiny-basics/lesson1/) for details.
 
 1. **Shiny Components**  
